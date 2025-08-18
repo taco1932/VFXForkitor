@@ -99,5 +99,17 @@ namespace VfxEditor.FileManager {
             DraggingItem = null;
             DocumentWindow.Reset();
         }
+
+        public bool AcceptsExt( string path )
+        {
+            return path.EndsWith( Extension );
+        }
+
+        public void PenumbraImport( SelectResult selectedFile, SelectResult replacedFile )
+        {
+            SetSource( selectedFile );
+            SetReplace( replacedFile );
+            AddDocument();
+        }
     }
 }

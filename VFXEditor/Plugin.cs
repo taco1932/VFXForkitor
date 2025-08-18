@@ -31,6 +31,7 @@ using VfxEditor.Library;
 using VfxEditor.Spawn;
 using VfxEditor.Tracker;
 using VfxEditor.Ui.Export;
+using VfxEditor.Ui.Import;
 using VfxEditor.Ui.Tools;
 
 namespace VfxEditor {
@@ -45,6 +46,7 @@ namespace VfxEditor {
 
         public static PenumbraIpc PenumbraIpc { get; private set; }
         public static PenumbraDialog PenumbraDialog { get; private set; }
+        public static ImportDialog ImportDialog { get; private set; }
 
         public static WindowSystem WindowSystem { get; private set; }
 
@@ -140,6 +142,7 @@ namespace VfxEditor {
             DirectXManager = new();
             TrackerManager = new();
             LibraryManager = new();
+            ImportDialog = new();
 
             Dalamud.Framework.Update += FrameworkOnUpdate;
             Dalamud.PluginInterface.UiBuilder.Draw += Draw;

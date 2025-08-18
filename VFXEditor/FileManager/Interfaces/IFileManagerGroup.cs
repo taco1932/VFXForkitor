@@ -2,6 +2,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VfxEditor.Select;
 
 namespace VfxEditor.FileManager.Interfaces {
     public interface IFileManagerGroup {
@@ -42,5 +43,9 @@ namespace VfxEditor.FileManager.Interfaces {
             }
             return false;
         }
+
+        public bool AcceptsExt( string path );
+
+        public void PenumbraImport( SelectResult selectedFile, SelectResult replacedFile );
     }
 }
