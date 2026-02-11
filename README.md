@@ -50,7 +50,7 @@ The beta and main builds cannot both be enabled at the same time, so make sure t
 Having problems? Check [troubleshooting tips](https://github.com/0ceal0t/Dalamud-VFXEditor/wiki/Troubleshooting) or a [basic guide](https://github.com/0ceal0t/Dalamud-VFXEditor/wiki/Basic-Guide). If you have other questions, please open an [Issue](https://github.com/0ceal0t/Dalamud-VFXEditor/issues)
 
 - [QuickLauncher Discord](https://github.com/goatcorp/FFXIVQuickLauncher#need-any-help)
-- [Students of Baldesion](https://discord.gg/33jxhxH8)
+- [Students of Baldesion](https://discord.gg/TrCeuZQgbg)
 
 ## Contributing
 If a VFX is behaving unexpectedly, or you are getting log messages indicating that it is not being parsed properly, please open an [Issue](https://github.com/0ceal0t/Dalamud-VFXEditor/issues).
