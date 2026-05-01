@@ -129,10 +129,6 @@ namespace VfxEditor.Select {
                                         ImGui.Image( icon.Handle, new Vector2( ( itemHeight / icon.Height ) * icon.Width, itemHeight ) );
                                     }
                                 }
-
-                                ImGui.SameLine();
-                                ImGui.SetCursorPosY( ImGui.GetCursorPosY() + ( itemHeight - ImGui.GetTextLineHeight() ) / 2f );
-                                ImGui.Text( item.GetName() );
                             }
 
                         ImGui.SetCursorPos( endPos );
