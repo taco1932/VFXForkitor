@@ -58,7 +58,7 @@ namespace VfxEditor.ScdFormat.Music.Data {
             waveFileCheck.Close();
 
             if( !File.Exists( ScdManager.ConvertWav ) ) {
-                Dalamud.Error( "Could not conver to ADPCM" );
+                Dalamud.Error( "Could not convert to ADPCM" );
                 return null;
             }
 
