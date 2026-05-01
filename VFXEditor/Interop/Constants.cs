@@ -84,6 +84,6 @@ namespace VfxEditor.Interop {
 
         public const string CharacterUtilitySig = "48 8B 05 ?? ?? ?? ?? 83 B9";
 
-        public const string HumanVTable = "48 8D 05 ?? ?? ?? ?? 48 89 03 89 8B";
+        public const string HumanVTable = "48 8D 05 ?? ?? ?? ?? 48 89 03 33 C0 89 8B";
     }
 }
