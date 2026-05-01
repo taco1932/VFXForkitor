@@ -119,7 +119,6 @@ namespace VfxEditor.Select {
 
                         ImGui.SetCursorPos( startPos );
                         using( var group = ImRaii.Group() ) {
-                            if( group ) {
                                 var iconId = ( item as ISelectItemWithIcon ).GetIconId();
                                 if( iconId <= 0 ) {
                                     ImGui.Dummy( new( itemHeight, itemHeight ) );
@@ -136,8 +135,6 @@ namespace VfxEditor.Select {
                                 ImGui.Text( item.GetName() );
                             }
 
-
-                        }
                         ImGui.SetCursorPos( endPos );
                     }
                     else {

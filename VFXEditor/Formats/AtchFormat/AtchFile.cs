@@ -43,6 +43,8 @@ namespace VfxEditor.Formats.AtchFormat {
             { "atr", "n_throw Summons" },
             { "avt", "Avatar (RPR)" },
             { "awo", "Saw, Alternate (CRP)" },
+            { "axe", "Axe (BST)" },
+            // { "azm", "" },
             { "bag", "Aetherotransformer (MCH)" },
             // { "bec", "" },
             // { "bgo", "" },
