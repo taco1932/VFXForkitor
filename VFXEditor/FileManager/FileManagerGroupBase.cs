@@ -26,8 +26,6 @@ namespace VfxEditor.FileManager {
 
         public string GetName() => FormatName.ToLower();
 
-        public WindowSystem GetWindowSystem() => WindowSystem;
-
         public abstract void SetLastFocusedManager( FileManagerBase manager );
 
         public abstract void AddDefaultDocument();

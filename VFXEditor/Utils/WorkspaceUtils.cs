@@ -12,6 +12,7 @@ namespace VfxEditor.Utils {
         public bool Disabled;
         public Dictionary<string, string> Renaming;
         public string RelativeLocation;
+        public int? WindowIndex;
     }
 
     public struct WorkspaceMetaTex {
@@ -28,6 +29,7 @@ namespace VfxEditor.Utils {
         public SelectResult Replace;
         public bool Disabled;
         public string RelativeLocation;
+        public int? WindowIndex;
     }
 
     public static class WorkspaceUtils {

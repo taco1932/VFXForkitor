@@ -39,7 +39,7 @@ namespace VfxEditor.FileManager {
                 m.RemoveDocument( d, dispose: false );
                 var newManager = AddManager();
                 newManager.Show();
-                newManager.MoveDocumentIn( d );
+                newManager.InsertDocument( d );
             }
         }
 
@@ -62,7 +62,20 @@ namespace VfxEditor.FileManager {
         public IEnumerable<IFileDocument> GetDocuments() => Managers.Select( x => x.GetDocuments() ).SelectMany( x => x);
 
         public void WorkspaceImport( JObject meta, string loadLocation ) {
-            Managers[0].WorkspaceImport( meta, loadLocation, WorkspaceKey, WorkspacePath );
+            var items = WorkspaceUtils.ReadFromMeta<S>( meta, WorkspaceKey );
+            if( items == null || items.Length == 0 ) return;
+
+            foreach( var item in items ) {
+                var windowIdx = item switch {
+                    WorkspaceMetaBasic basic => basic.WindowIndex,
+                    WorkspaceMetaRenamed renamed => renamed.WindowIndex,
+                    _ => null
+                } ?? 0;
+                while( windowIdx >= Managers.Count ) NewWindow();
+                Managers[windowIdx].WorkspaceImport( item, loadLocation, WorkspacePath );
+            }
+
+            Managers.ForEach( x => x.IsOpen = true );
         }
 
         public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation ) {
@@ -70,10 +83,11 @@ namespace VfxEditor.FileManager {
             Directory.CreateDirectory( rootPath );
 
             List<S> documentMeta = [];
+
             var idx = 0;
-            foreach( var manager in Managers ) {
+            foreach( var (manager, managerIdx) in Managers.WithIndex() ) {
                 foreach( var document in manager.Documents ) {
-                    document.WorkspaceExport( documentMeta, rootPath, $"{FormatName}Temp{idx}.{Extension}" );
+                    document.WorkspaceExport( documentMeta, rootPath, $"{FormatName}Temp{idx}.{Extension}", managerIdx );
                     idx++;
                 }
             }
@@ -92,9 +106,10 @@ namespace VfxEditor.FileManager {
         }
 
         public virtual void Reset( bool pluginClosing ) {
-            LastFocusedManager = null;
             Managers.ForEach( x => x.Reset( pluginClosing ) );
-            Managers.RemoveRange( 1, Managers.Count - 1 );
+            Managers.Clear();
+            WindowSystem.RemoveAllWindows();
+            LastFocusedManager = AddManager();
         }
 
         public void Show() {

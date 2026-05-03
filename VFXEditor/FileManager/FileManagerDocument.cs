@@ -201,14 +201,14 @@ namespace VfxEditor.FileManager {
             modOffset += modData.Length;
         }
 
-        public abstract S GetWorkspaceMeta( string newPath );
+        public abstract S GetWorkspaceMeta( string newPath, int windowIdx );
 
-        public void WorkspaceExport( List<S> meta, string rootPath, string newPath ) {
+        public void WorkspaceExport( List<S> meta, string rootPath, string newPath, int windowIdx ) {
             if( File == null ) return;
 
             var newFullPath = Path.Combine( rootPath, newPath );
             System.IO.File.WriteAllBytes( newFullPath, File.ToBytes() );
-            meta.Add( GetWorkspaceMeta( newPath ) );
+            meta.Add( GetWorkspaceMeta( newPath, windowIdx ) );
         }
 
         // ====== DRAWING ==========

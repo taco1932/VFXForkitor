@@ -1,4 +1,5 @@
 using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Windowing;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -73,22 +74,17 @@ namespace VfxEditor.FileManager {
             }
         }
 
-        public void MoveDocumentIn( D document ) {
+        public void InsertDocument( D document ) {
             Documents.Add( document );
             ActiveDocument = document;
         }
 
         public IEnumerable<IFileDocument> GetDocuments() => Documents;
 
-        public void WorkspaceImport( JObject meta, string loadLocation, string key, string path ) {
-            var items = WorkspaceUtils.ReadFromMeta<S>( meta, key );
-            if( items == null || items.Length == 0 ) return;
-
-            foreach( var item in items ) {
-                var newDocument = GetWorkspaceDocument( item, Path.Combine( loadLocation, path ) );
-                ActiveDocument = newDocument;
-                Documents.Add( newDocument );
-            }
+        public void WorkspaceImport( S item, string loadLocation, string path ) {
+            var newDocument = GetWorkspaceDocument( item, Path.Combine( loadLocation, path ) );
+            ActiveDocument = newDocument;
+            Documents.Add( newDocument );
         }
 
         protected abstract D GetWorkspaceDocument( S data, string localPath );
