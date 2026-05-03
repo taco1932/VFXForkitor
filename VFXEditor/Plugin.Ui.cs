@@ -81,6 +81,14 @@ namespace VfxEditor {
 
                 ImGui.Separator();
                 if( ImGui.MenuItem( "Settings" ) ) ConfigWindow.Show();
+                if( ImGui.BeginMenu( "Penumbra" ) )
+                {
+                    if( ImGui.MenuItem( "Open Mod" ) ) OpenWorkspacePenumbra( true );
+                    if( ImGui.MenuItem( "Append Mod" ) ) OpenWorkspacePenumbra( false );
+                    ImGui.EndMenu();
+                }
+
+                ImGui.Separator();
                 if( ImGui.MenuItem( "Tools" ) ) ToolsDialog.Show();
                 if( ImGui.BeginMenu( "Help" ) ) {
                     if( ImGui.MenuItem( "Github" ) ) UiUtils.OpenUrl( "https://github.com/0ceal0t/Dalamud-VFXEditor" );

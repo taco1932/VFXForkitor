@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VfxEditor.FileManager.Interfaces;
+using VfxEditor.Select;
 using VfxEditor.Utils;
 
 namespace VfxEditor.FileManager {
@@ -177,6 +178,16 @@ namespace VfxEditor.FileManager {
                 }
             }
             return false;
+        }
+
+        public bool AcceptsExt( string path )
+        {
+            return LastFocusedManager.AcceptsExt(path);
+        }
+
+        public void PenumbraImport( SelectResult selectedFile, SelectResult replacedFile )
+        {
+            LastFocusedManager.PenumbraImport(selectedFile, replacedFile);
         }
     }
 }
