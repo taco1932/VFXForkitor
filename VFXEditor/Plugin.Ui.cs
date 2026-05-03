@@ -51,7 +51,6 @@ namespace VfxEditor {
             if( Configuration.SaveAsKeybind.KeyPressed() ) SaveAsWorkspace();
         }
 
-        public static void DrawFileMenu() {
         public static void DrawFileMenu( FileManagerGroupBase group ) {
             using var _ = ImRaii.PushId( "Menu" );
 
