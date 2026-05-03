@@ -1,13 +1,10 @@
 using Dalamud.Bindings.ImGui;
-using Dalamud.Interface.Windowing;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using VfxEditor.Data.Copy;
 using VfxEditor.FileManager.Interfaces;
 using VfxEditor.Select;
 using VfxEditor.Ui.Export;
-using VfxEditor.Utils;
 
 namespace VfxEditor.FileManager {
     public abstract partial class FileManager<D, F, S> : FileManagerBase, IFileManager where D : FileManagerDocument<F, S> where F : FileManagerFile {

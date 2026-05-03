@@ -1,3 +1,5 @@
+using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Utility.Raii;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -47,8 +49,11 @@ namespace VfxEditor.FileManager {
             Managers[0].AddDocument();
         }
 
-        public override void OnClose( FileManagerBase manager ) {
-            if( Managers.Contains( manager ) ) RemoveManager( ( M )manager );
+        public override void DrawCloseWindow( FileManagerBase manager ) {
+            using var disable = ImRaii.Disabled( Managers.Count == 1 );
+            if( ImGui.MenuItem( "Close Window" ) ) {
+                if( Managers.Contains( manager ) ) RemoveManager( ( M )manager );
+            }
         }
 
         public void RemoveManager( M manager ) {
@@ -75,7 +80,7 @@ namespace VfxEditor.FileManager {
                 Managers[windowIdx].WorkspaceImport( item, loadLocation, WorkspacePath );
             }
 
-            Managers.ForEach( x => x.IsOpen = true );
+            Managers.ForEach( x => x.Show() );
         }
 
         public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation ) {

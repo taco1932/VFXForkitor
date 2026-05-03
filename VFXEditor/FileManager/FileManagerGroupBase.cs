@@ -32,10 +32,10 @@ namespace VfxEditor.FileManager {
 
         public abstract void Draw();
 
-        public abstract void OnClose( FileManagerBase manager );
-
         public abstract void NewWindow();
 
         public abstract void ToNewWindow( FileManagerBase currentManager, IFileDocument document );
+
+        public abstract void DrawCloseWindow( FileManagerBase manager );
     }
 }

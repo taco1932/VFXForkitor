@@ -51,7 +51,7 @@ namespace VfxEditor.FileManager {
             var menu = ImGui.BeginMenuBar();
             if( !menu ) return;
 
-            Plugin.DrawFileMenu( Group );
+            Plugin.DrawFileMenu( this, Group );
 
             if( ImGui.BeginMenu( "Edit" ) ) {
                 CommandManager.Draw();

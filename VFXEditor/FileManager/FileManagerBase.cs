@@ -46,8 +46,6 @@ namespace VfxEditor.FileManager {
 
         public WindowSystem GetWindowSystem() => WindowSystem;
 
-        public override void OnClose() => Group.OnClose( this );
-
         public int GetWindowId() => WindowId;
     }
 }
