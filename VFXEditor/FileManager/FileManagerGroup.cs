@@ -1,3 +1,5 @@
+using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Utility.Raii;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +14,8 @@ namespace VfxEditor.FileManager {
         public List<D> Documents => [.. Managers.SelectMany( x => x.Documents )];
 
         public M LastFocusedManager { get; protected set; } = null;
-        private bool Visible = true;
+
+        private (M, D)? Dragging = null;
 
         public FileManagerGroup( string title, string formatName ) :
             this( title, formatName, formatName.ToLower(), formatName, formatName ) { }
@@ -31,9 +34,7 @@ namespace VfxEditor.FileManager {
             return newManager;
         }
 
-        public override void NewWindow() {
-            AddManager().Show();
-        }
+        public override void NewWindow() => AddManager().Show();
 
         public override void ToNewWindow( FileManagerBase currentManager, IFileDocument document ) {
             if( ( currentManager is M m ) && ( document is D d ) ) {
@@ -48,10 +49,6 @@ namespace VfxEditor.FileManager {
             Managers[0].AddDocument();
         }
 
-        public override void OnClose( FileManagerBase manager ) {
-            if( Managers.Contains( manager ) ) RemoveManager( ( M )manager );
-        }
-
         public void RemoveManager( M manager ) {
             if( Managers.Count == 1 ) return; // can't remove the last manager
             if( LastFocusedManager == manager ) LastFocusedManager = null;
@@ -62,9 +59,12 @@ namespace VfxEditor.FileManager {
 
         public IEnumerable<IFileDocument> GetDocuments() => Managers.Select( x => x.GetDocuments() ).SelectMany( x => x);
 
+        // ======================
+
         public void WorkspaceImport( JObject meta, string loadLocation ) {
             var items = WorkspaceUtils.ReadFromMeta<S>( meta, WorkspaceKey );
             if( items == null || items.Length == 0 ) return;
+
 
             foreach( var item in items ) {
                 var windowIdx = item switch {
@@ -76,10 +76,14 @@ namespace VfxEditor.FileManager {
                 Managers[windowIdx].WorkspaceImport( item, loadLocation, WorkspacePath );
             }
 
-            Managers.ForEach( x => x.IsOpen = true );
+            var windows = WorkspaceUtils.GetWindowData( meta, WorkspaceKey );
+            foreach( var (manager, idx) in Managers.WithIndex() ) {
+                manager.Show();
+                manager.SetMeta( windows?[idx] );
+            }
         }
 
-        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation ) {
+        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation, Dictionary<string, WorkspaceWindow[]> windows ) {
             var rootPath = Path.Combine( saveLocation, WorkspacePath );
             Directory.CreateDirectory( rootPath );
 
@@ -92,9 +96,12 @@ namespace VfxEditor.FileManager {
                     idx++;
                 }
             }
-
             WorkspaceUtils.WriteToMeta( meta, documentMeta.ToArray(), WorkspaceKey );
+
+            windows[WorkspaceKey] = [.. Managers.Select( x => x.ToMeta() )];
         }
+
+        // ====================
 
         public bool DoDebug( string path ) => path.Contains( $".{Extension}" );
 
@@ -107,24 +114,70 @@ namespace VfxEditor.FileManager {
         }
 
         public virtual void Reset( bool pluginClosing ) {
+            Dragging = null;
+            WindowId = 0;
             Managers.ForEach( x => x.Reset( pluginClosing ) );
             Managers.Clear();
             WindowSystem.RemoveAllWindows();
             LastFocusedManager = AddManager();
         }
 
+        public bool AnyWindowsOpen() => Managers.Any( x => x.IsOpen );
+
         public void Show() {
-            Visible = true;
             Managers.ForEach( x => x.Show() );
         }
 
-        public override void Draw() {
-            if( !Visible ) return;
-            WindowSystem.Draw();
+        public override void Draw() => WindowSystem.Draw();
+
+        public override void DrawCloseWindow( FileManagerBase manager ) {
+            using var disable = ImRaii.Disabled( Managers.Count == 1 );
+            if( ImGui.MenuItem( "Close Window" ) ) {
+                if( Managers.Contains( manager ) ) RemoveManager( ( M )manager );
+            }
         }
 
-        public void Hide() {
-            Visible = false;
+        public override unsafe bool DrawDragDrop( FileManagerBase _manager, IFileDocument? _document, string? targetDocumentName ) {
+            // Allow nullable document to, for example, create a target in windows that have no documents
+            if( ( _manager is M targetManager ) && ( _document is D || _document == null ) ) {
+                var targetDocument = ( _document is D d ) ? d : null;
+
+                if( targetDocument != null ) {
+                    if( ImGui.BeginDragDropSource( ImGuiDragDropFlags.None ) ) {
+                        ImGui.SetDragDropPayload( $"{Title}-DRAGDROP", null, 0 );
+                        Dragging = (targetManager, targetDocument);
+                        ImGui.Text( targetDocumentName ?? "..." );
+                        ImGui.EndDragDropSource();
+                    }
+                }
+
+                if( ImGui.BeginDragDropTarget() ) {
+                    if( Dragging != null && ImGui.AcceptDragDropPayload( $"{Title}-DRAGDROP" ).Handle != null ) {
+                        var sourceManager = Dragging!.Value.Item1;
+                        var sourceDocument = Dragging!.Value.Item2;
+
+                        if( sourceDocument != targetDocument ) {
+                            if( sourceManager == targetManager && targetDocument != null ) { // Re-ordering
+                                targetManager.MoveDocumentAfter( sourceDocument, targetDocument );
+                            }
+                            else { // Moving it to another manager
+                                sourceManager.RemoveDocument( sourceDocument, dispose: false );
+                                if( targetDocument == null ) {
+                                    targetManager.InsertDocument( sourceDocument );
+                                }
+                                else {
+                                    targetManager.MoveDocumentAfter( sourceDocument, targetDocument );
+                                }
+                            }
+                        }
+
+                        Dragging = null;
+                        return true;
+                    }
+                    ImGui.EndDragDropTarget();
+                }
+            }
+            return false;
         }
 
         public bool AcceptsExt( string path )

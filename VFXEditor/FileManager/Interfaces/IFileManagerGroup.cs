@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using VfxEditor.Select;
+using VfxEditor.Utils;
 
 namespace VfxEditor.FileManager.Interfaces {
     public interface IFileManagerGroup {
@@ -14,7 +15,7 @@ namespace VfxEditor.FileManager.Interfaces {
 
         public void WorkspaceImport( JObject meta, string loadLocation );
 
-        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation );
+        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation, Dictionary<string, WorkspaceWindow[]> windows );
 
         public IEnumerable<IFileDocument> GetDocuments();
 
@@ -26,9 +27,9 @@ namespace VfxEditor.FileManager.Interfaces {
 
         public void Draw();
 
-        public void Hide();
-
         public void Reset( bool pluginClosing );
+
+        public bool AnyWindowsOpen();
 
         public static bool FileExist( IFileManagerGroup manager, string path ) =>
             Dalamud.GameFileExists( path ) || Plugin.PenumbraIpc.PenumbraFileExists( path, out var _ ) || manager.GetReplacePath( path, out var _ );

@@ -51,11 +51,12 @@ namespace VfxEditor {
             if( Configuration.SaveAsKeybind.KeyPressed() ) SaveAsWorkspace();
         }
 
-        public static void DrawFileMenu( FileManagerGroupBase group ) {
+        public static void DrawFileMenu( FileManagerBase manager, FileManagerGroupBase group ) {
             using var _ = ImRaii.PushId( "Menu" );
 
             if( ImGui.BeginMenu( "File" ) ) {
                 if( ImGui.MenuItem( "New Window" ) ) group.NewWindow();
+                group.DrawCloseWindow( manager );
 
                 ImGui.Separator();
                 if( ImGui.MenuItem( "New" ) ) NewWorkspace();

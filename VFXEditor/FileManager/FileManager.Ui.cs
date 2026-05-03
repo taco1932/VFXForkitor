@@ -8,8 +8,6 @@ using VfxEditor.Utils;
 
 namespace VfxEditor.FileManager {
     public abstract partial class FileManager<D, F, S> : FileManagerBase where D : FileManagerDocument<F, S> where F : FileManagerFile {
-        private D DraggingItem;
-
         protected virtual void DrawEditMenuItems() { }
 
         public override void DrawBody() {
@@ -51,7 +49,7 @@ namespace VfxEditor.FileManager {
             var menu = ImGui.BeginMenuBar();
             if( !menu ) return;
 
-            Plugin.DrawFileMenu( Group );
+            Plugin.DrawFileMenu( this, Group );
 
             if( ImGui.BeginMenu( "Edit" ) ) {
                 CommandManager.Draw();
@@ -101,8 +99,7 @@ namespace VfxEditor.FileManager {
 
                     if( ImGui.BeginTabItem( $"{document.DisplayName}###Tab{idx}", ref open, flags ) ) ImGui.EndTabItem();
 
-                    if( UiUtils.DrawDragDrop( Documents, document, document.DisplayName, ref DraggingItem, "DOCUMENT-TABS", false ) ) break;
-
+                    if( Group.DrawDragDrop( this, document, document.DisplayName ) ) break;
                     if( !open ) ImGui.OpenPopup( "DeletePopup" );
 
                     if( ImGui.IsItemClicked( ImGuiMouseButton.Left ) && open ) SelectDocument( document );
@@ -129,6 +126,7 @@ namespace VfxEditor.FileManager {
                 }
 
                 if( ImGui.TabItemButton( "+", ImGuiTabItemFlags.Trailing | ImGuiTabItemFlags.NoReorder | ImGuiTabItemFlags.NoTooltip ) ) AddDocument();
+                if( Documents.Count == 0 ) Group.DrawDragDrop( this, null, null ); // in case the window has no documents
             }
 
             ImGui.SameLine();
