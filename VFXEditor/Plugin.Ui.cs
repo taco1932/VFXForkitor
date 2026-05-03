@@ -52,11 +52,13 @@ namespace VfxEditor {
         }
 
         public static void DrawFileMenu() {
+        public static void DrawFileMenu( FileManagerGroupBase group ) {
             using var _ = ImRaii.PushId( "Menu" );
 
             if( ImGui.BeginMenu( "File" ) ) {
-                if( ImGui.MenuItem( "New" ) ) NewWorkspace();
-                if( ImGui.MenuItem( "Open" ) ) OpenWorkspace( true );
+                if( ImGui.MenuItem( "New Window" ) ) group.NewWindow();
+                if( ImGui.MenuItem( "New Workspace" ) ) NewWorkspace();
+                if( ImGui.MenuItem( "Open Workspace" ) ) OpenWorkspace( true );
                 if( ImGui.BeginMenu( "Open Recent" ) ) {
                     foreach( var (recent, idx) in Configuration.RecentWorkspaces.WithIndex() ) {
                         if( ImGui.MenuItem( $"{recent.Item1}##{idx}" ) ) {
@@ -76,7 +78,7 @@ namespace VfxEditor {
                 if( ImGui.MenuItem( "Save As" ) ) SaveAsWorkspace();
 
                 ImGui.Separator();
-                if( ImGui.MenuItem( "Settings" ) ) Configuration.Show();
+                if( ImGui.MenuItem( "Settings" ) ) ConfigWindow.Show();
                 if( ImGui.MenuItem( "Tools" ) ) ToolsDialog.Show();
                 if( ImGui.BeginMenu( "Help" ) ) {
                     if( ImGui.MenuItem( "Github" ) ) UiUtils.OpenUrl( "https://github.com/0ceal0t/Dalamud-VFXEditor" );

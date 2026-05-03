@@ -10,6 +10,9 @@ namespace VfxEditor.FileManager {
 
         public readonly WindowSystem WindowSystem = new();
 
+        public int WindowId { get; private set; } = 0;
+        public int NewWindowId => WindowId++;
+
         protected FileManagerGroupBase( string title, string formatName, string extension, string workspaceKey, string workspacePath ) {
             Title = title;
             Extension = extension;
@@ -27,5 +30,9 @@ namespace VfxEditor.FileManager {
         public abstract void SetLastFocusedManager( FileManagerBase manager );
 
         public abstract void Draw();
+
+        public abstract void OnClose( FileManagerBase manager );
+
+        public abstract void NewWindow();
     }
 }

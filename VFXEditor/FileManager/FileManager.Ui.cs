@@ -28,9 +28,9 @@ namespace VfxEditor.FileManager {
                 Title
 #endif
                 + ( string.IsNullOrEmpty( Plugin.CurrentWorkspaceName ) ? "" : $" [{Plugin.CurrentWorkspaceName}]" )
-                + $"###{Title}-{ManagerId}";
+                + $"###{Title}-{WindowId}";
 
-            using var _ = ImRaii.PushId( $"{FormatName}-{ManagerId}" );
+            using var _ = ImRaii.PushId( $"{FormatName}-{WindowId}" );
             DrawMenu();
             if( Plugin.Configuration.ShowTabBar ) {
                 DrawTabs();
@@ -44,7 +44,7 @@ namespace VfxEditor.FileManager {
             var menu = ImGui.BeginMenuBar();
             if( !menu ) return;
 
-            Plugin.DrawFileMenu();
+            Plugin.DrawFileMenu( Group );
 
             if( ImGui.BeginMenu( "Edit" ) ) {
                 CommandManager.Draw();

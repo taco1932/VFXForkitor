@@ -11,8 +11,7 @@ namespace VfxEditor.FileManager {
         public string Title => Group.Title;
         public string Extension => Group.Extension;
 
-        private static int MANAGER_ID = 0;
-        public readonly int ManagerId;
+        public readonly int WindowId;
 
         public readonly ManagerConfiguration Configuration;
 
@@ -26,10 +25,10 @@ namespace VfxEditor.FileManager {
         public SelectDialog ReplaceSelect { get; protected set; }
 
         protected FileManagerBase( FileManagerGroupBase group ) :
-            base( group.Title, true, new( 800, 1000 ), group.WindowSystem, isMainWindow: true ) {
+            base( $"{group.Title}##{group.WindowId}", true, new( 800, 1000 ), group.WindowSystem, isMainWindow: true ) {
 
             Group = group;
-            ManagerId = MANAGER_ID++;
+            WindowId = group.NewWindowId;
             Configuration = Plugin.Configuration.GetManagerConfig( FormatName );
         }
 
@@ -45,8 +44,10 @@ namespace VfxEditor.FileManager {
 
         public string GetId() => FormatName;
 
-        public string GetName() => FormatName.ToLower();
-
         public WindowSystem GetWindowSystem() => WindowSystem;
+
+        public override void OnClose() => Group.OnClose( this );
+
+        public int GetWindowId() => WindowId;
     }
 }

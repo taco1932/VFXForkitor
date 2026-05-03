@@ -4,6 +4,7 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using System.Collections.Generic;
+using VfxEditor.Data;
 using VfxEditor.DirectX;
 using VfxEditor.FileBrowser;
 using VfxEditor.FileManager.Interfaces;
@@ -95,6 +96,8 @@ namespace VfxEditor {
         private static bool ClearKeyState = false;
         public static bool IsImguiSafe { get; set; } = false;
 
+        private static ConfigurationWindow ConfigWindow;
+
         public Plugin( IDalamudPluginInterface pluginInterface ) {
             pluginInterface.Create<Dalamud>();
 
@@ -107,7 +110,7 @@ namespace VfxEditor {
 
             Configuration = Dalamud.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Configuration.Setup();
-            Configuration.Hide();
+            ConfigWindow = new( Configuration );
 
             TextureManager.LoadLibrary();
             TextureManager = new();

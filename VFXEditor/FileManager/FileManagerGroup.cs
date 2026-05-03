@@ -29,6 +29,16 @@ namespace VfxEditor.FileManager {
             Managers.Add( GetNewManager() );
         }
 
+        public override void NewWindow() {
+            var newManager = GetNewManager();
+            Managers.Add( newManager );
+            newManager.Show();
+        }
+
+        public override void OnClose( FileManagerBase manager ) {
+            if( Managers.Contains( manager ) ) RemoveManager( ( M )manager );
+        }
+
         public void RemoveManager( M manager ) {
             if( Managers.Count == 1 ) return; // can't remove the last manager
             if( LastFocusedManager == manager ) LastFocusedManager = null;

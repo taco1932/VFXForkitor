@@ -42,6 +42,8 @@ namespace VfxEditor.Formats.TextureFormat {
 
         public string GetName() => "tex";
 
+        public int GetWindowId() => 1;
+
         public bool IsWindowOpen() => IsOpen;
 
         public void ReplaceTexture( string importPath, string gamePath ) {

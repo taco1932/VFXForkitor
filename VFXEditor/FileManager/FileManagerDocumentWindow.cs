@@ -11,7 +11,7 @@ namespace VfxEditor.FileManager {
         private readonly FileManager<T, R, S> Manager;
         private static bool ShowSourceColumn => Plugin.Configuration.DocumentPopoutShowSource;
 
-        public FileManagerDocumentWindow( string name, FileManager<T, R, S> manager ) : base( $"{name} [DOCUMENTS]", false, new( 600, 400 ), manager.WindowSystem ) {
+        public FileManagerDocumentWindow( string name, FileManager<T, R, S> manager ) : base( $"{name} [DOCUMENTS]##{manager.WindowId}", false, new( 600, 400 ), manager.WindowSystem ) {
             Manager = manager;
         }
 

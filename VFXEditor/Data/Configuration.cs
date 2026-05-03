@@ -29,7 +29,7 @@ namespace VfxEditor {
     }
 
     [Serializable]
-    public class Configuration : DalamudWindow, IPluginConfiguration {
+    public class Configuration : IPluginConfiguration {
         public int Version { get; set; } = 0;
         public bool IsEnabled { get; set; } = true;
 
@@ -167,7 +167,7 @@ namespace VfxEditor {
         [NonSerialized]
         public bool WriteLocationError = false;
 
-        public Configuration() : base( "Settings", false, new( 300, 200 ), Plugin.WindowSystem ) { }
+        public Configuration() { }
 
         public void Setup() {
             UpdateHideSettings();
@@ -254,7 +254,7 @@ namespace VfxEditor {
 
         // =================
 
-        public override void DrawBody() {
+        public void DrawBody() {
             using var _ = ImRaii.PushId( "Settings" );
 
             using var tabBar = ImRaii.TabBar( "Tabs" );

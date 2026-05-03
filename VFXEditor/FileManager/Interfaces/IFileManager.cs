@@ -13,8 +13,6 @@ namespace VfxEditor.FileManager.Interfaces {
 
         public IEnumerable<IFileDocument> GetDocuments();
 
-        public string GetName();
-
         public void Show();
 
         public void Draw();
