@@ -243,7 +243,7 @@ namespace VfxEditor.Formats.TextureFormat {
 
         public WindowSystem GetWindowSystem() => WindowSystem;
 
-        public bool AcceptsExt( string path )
+        public bool CanImport( string path )
         {
             return path.EndsWith( "atex" );
         }

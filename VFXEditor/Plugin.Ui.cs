@@ -81,8 +81,7 @@ namespace VfxEditor {
 
                 ImGui.Separator();
                 if( ImGui.MenuItem( "Settings" ) ) ConfigWindow.Show();
-                if( ImGui.BeginMenu( "Penumbra" ) )
-                {
+                if( ImGui.BeginMenu( "Penumbra" ) ) {
                     if( ImGui.MenuItem( "Open Mod" ) ) OpenWorkspacePenumbra( true );
                     if( ImGui.MenuItem( "Append Mod" ) ) OpenWorkspacePenumbra( false );
                     ImGui.EndMenu();
@@ -101,8 +100,8 @@ namespace VfxEditor {
             }
 
             if( ImGui.BeginMenu( "Export" ) ) {
-                if( ImGui.MenuItem( "Penumbra" ) ) PenumbraDialog.Show();
-                if( ImGui.MenuItem( "TexTools" ) ) TexToolsDialog.Show();
+                if( ImGui.MenuItem( "Penumbra" ) ) PenumbraExportDialog.Show();
+                if( ImGui.MenuItem( "TexTools" ) ) TexToolsExportDialog.Show();
                 ImGui.EndMenu();
             }
         }

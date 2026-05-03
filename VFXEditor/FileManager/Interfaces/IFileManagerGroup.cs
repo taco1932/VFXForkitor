@@ -45,7 +45,7 @@ namespace VfxEditor.FileManager.Interfaces {
             return false;
         }
 
-        public bool AcceptsExt( string path );
+        public bool CanImport( string path );
 
         public void PenumbraImport( SelectResult selectedFile, SelectResult replacedFile );
     }

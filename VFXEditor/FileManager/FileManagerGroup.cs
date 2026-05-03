@@ -57,7 +57,7 @@ namespace VfxEditor.FileManager {
             WindowSystem.RemoveWindow( manager );
         }
 
-        public IEnumerable<IFileDocument> GetDocuments() => Managers.Select( x => x.GetDocuments() ).SelectMany( x => x);
+        public IEnumerable<IFileDocument> GetDocuments() => Managers.Select( x => x.GetDocuments() ).SelectMany( x => x );
 
         // ======================
 
@@ -180,14 +180,12 @@ namespace VfxEditor.FileManager {
             return false;
         }
 
-        public bool AcceptsExt( string path )
-        {
-            return LastFocusedManager.AcceptsExt(path);
+        public bool CanImport( string path ) {
+            return LastFocusedManager.CanImport( path );
         }
 
-        public void PenumbraImport( SelectResult selectedFile, SelectResult replacedFile )
-        {
-            LastFocusedManager.PenumbraImport(selectedFile, replacedFile);
+        public void PenumbraImport( SelectResult selectedFile, SelectResult replacedFile ) {
+            LastFocusedManager.PenumbraImport( selectedFile, replacedFile );
         }
     }
 }

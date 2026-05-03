@@ -41,12 +41,12 @@ namespace VfxEditor {
         public static Configuration Configuration { get; private set; }
         public static TrackerManager TrackerManager { get; private set; }
         public static ToolsDialog ToolsDialog { get; private set; }
-        public static TexToolsDialog TexToolsDialog { get; private set; }
+        public static TexToolsDialog TexToolsExportDialog { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
 
         public static PenumbraIpc PenumbraIpc { get; private set; }
-        public static PenumbraDialog PenumbraDialog { get; private set; }
-        public static ImportDialog ImportDialog { get; private set; }
+        public static PenumbraDialog PenumbraExportDialog { get; private set; }
+        public static PenumbraImportDialog PenumbraImportDialog { get; private set; }
 
         public static WindowSystem WindowSystem { get; private set; }
 
@@ -136,13 +136,13 @@ namespace VfxEditor {
 
             ToolsDialog = new();
             PenumbraIpc = new();
-            PenumbraDialog = new();
-            TexToolsDialog = new();
+            PenumbraExportDialog = new();
+            TexToolsExportDialog = new();
             ResourceLoader = new();
             DirectXManager = new();
             TrackerManager = new();
             LibraryManager = new();
-            ImportDialog = new();
+            PenumbraImportDialog = new();
 
             Dalamud.Framework.Update += FrameworkOnUpdate;
             Dalamud.PluginInterface.UiBuilder.Draw += Draw;
