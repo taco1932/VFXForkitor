@@ -52,6 +52,11 @@ namespace VfxEditor.AvfxFormat {
         }
 
         public override void Draw() {
+            if( ExportUi.IsExporting ) {
+                ExportUi.Draw();
+                return;
+            }
+
             using var _ = ImRaii.PushId( "Main" );
 
             using var tabBar = ImRaii.TabBar( "Tabs", ImGuiTabBarFlags.NoCloseWithMiddleMouseButton );

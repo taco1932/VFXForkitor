@@ -122,7 +122,7 @@ namespace VfxEditor.AvfxFormat {
                 using( var popup = ImRaii.Popup( "ExportPopup" ) ) {
                     if( popup ) {
                         if( ImGui.Selectable( ".gltf" ) ) ExportDialog();
-                        if( ImGui.Selectable( ".avfx" ) ) Plugin.AvfxManager.ShowExportDialog( this );
+                        if( ImGui.Selectable( ".avfx" ) ) File.ShowExportDialog( this );
                     }
                 }
 

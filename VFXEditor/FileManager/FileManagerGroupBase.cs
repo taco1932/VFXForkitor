@@ -25,5 +25,7 @@ namespace VfxEditor.FileManager {
         public WindowSystem GetWindowSystem() => WindowSystem;
 
         public abstract void SetLastFocusedManager( FileManagerBase manager );
+
+        public abstract void Draw();
     }
 }

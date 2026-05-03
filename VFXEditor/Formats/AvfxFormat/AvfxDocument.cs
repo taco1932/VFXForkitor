@@ -51,8 +51,6 @@ namespace VfxEditor.AvfxFormat {
             if( File != null && System.IO.File.Exists( path ) ) File.Import( path );
         }
 
-        public void ShowExportDialog( AvfxNode node ) => File.ShowExportDialog( node );
-
         public void OpenTemplate( string path ) =>
             SetSource( new SelectResult( SelectResultType.Local, "", "[TEMPLATE]", Path.Combine( Plugin.RootLocation, "Files", path ) ) );
 

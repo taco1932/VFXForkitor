@@ -10,7 +10,7 @@ namespace VfxEditor.FileManager {
         public readonly List<M> Managers = [];
         public List<D> Documents => [.. Managers.SelectMany( x => x.Documents )];
 
-        protected M LastFocusedManager = null;
+        public M LastFocusedManager { get; protected set; } = null;
         private bool Visible = true;
 
         public FileManagerGroup( string title, string formatName ) :
@@ -20,6 +20,7 @@ namespace VfxEditor.FileManager {
             base( title, formatName, extension, workspaceKey, workspacePath ) {
 
             AddManager();
+            LastFocusedManager = Managers[0];
         }
 
         protected abstract M GetNewManager();
@@ -80,8 +81,9 @@ namespace VfxEditor.FileManager {
             Managers.ForEach( x => x.Show() );
         }
 
-        public void Draw() {
+        public override void Draw() {
             if( !Visible ) return;
+            WindowSystem.Draw();
         }
 
         public void Hide() {

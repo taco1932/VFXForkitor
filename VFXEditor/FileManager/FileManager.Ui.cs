@@ -16,7 +16,7 @@ namespace VfxEditor.FileManager {
             if( ImGui.IsWindowFocused() ) Group.SetLastFocusedManager( this );
 
             using var copy = new CopyRaii( Copy );
-            using var command = new CommandRaii( File?.Command );
+            using var command = new CommandRaii( ActiveFile?.Command );
 
             CheckKeybinds();
 

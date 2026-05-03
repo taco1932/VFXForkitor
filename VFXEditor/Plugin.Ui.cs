@@ -11,6 +11,7 @@ using VfxEditor.FileManager.Interfaces;
 using VfxEditor.Ui.Components;
 using VfxEditor.Ui.Export;
 using VfxEditor.Utils;
+using VfxEditor.FileManager;
 
 namespace VfxEditor {
     public unsafe partial class Plugin {
@@ -29,6 +30,10 @@ namespace VfxEditor {
             CheckWorkspaceKeybinds();
 
             WindowSystem.Draw();
+            foreach( var group in Groups ) {
+                if( group is FileManagerGroupBase g ) g.Draw();
+            }
+
             TrackerManager.Draw();
 
             CheckAutoSave();
