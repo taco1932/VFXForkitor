@@ -13,7 +13,6 @@ namespace VfxEditor.FileManager {
         public List<D> Documents => [.. Managers.SelectMany( x => x.Documents )];
 
         public M LastFocusedManager { get; protected set; } = null;
-        private bool Visible = true;
 
         public FileManagerGroup( string title, string formatName ) :
             this( title, formatName, formatName.ToLower(), formatName, formatName ) { }
@@ -70,6 +69,7 @@ namespace VfxEditor.FileManager {
             var items = WorkspaceUtils.ReadFromMeta<S>( meta, WorkspaceKey );
             if( items == null || items.Length == 0 ) return;
 
+
             foreach( var item in items ) {
                 var windowIdx = item switch {
                     WorkspaceMetaBasic basic => basic.WindowIndex,
@@ -80,10 +80,14 @@ namespace VfxEditor.FileManager {
                 Managers[windowIdx].WorkspaceImport( item, loadLocation, WorkspacePath );
             }
 
-            Managers.ForEach( x => x.Show() );
+            var windows = WorkspaceUtils.GetWindowData( meta, WorkspaceKey );
+            foreach( var (manager, idx) in Managers.WithIndex() ) {
+                manager.Show();
+                manager.SetMeta( windows?[idx] );
+            }
         }
 
-        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation ) {
+        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation, Dictionary<string, WorkspaceWindow[]> windows ) {
             var rootPath = Path.Combine( saveLocation, WorkspacePath );
             Directory.CreateDirectory( rootPath );
 
@@ -96,8 +100,9 @@ namespace VfxEditor.FileManager {
                     idx++;
                 }
             }
-
             WorkspaceUtils.WriteToMeta( meta, documentMeta.ToArray(), WorkspaceKey );
+
+            windows[WorkspaceKey] = [.. Managers.Select( x => x.ToMeta() )];
         }
 
         public bool DoDebug( string path ) => path.Contains( $".{Extension}" );
@@ -111,24 +116,19 @@ namespace VfxEditor.FileManager {
         }
 
         public virtual void Reset( bool pluginClosing ) {
+            WindowId = 0;
             Managers.ForEach( x => x.Reset( pluginClosing ) );
             Managers.Clear();
             WindowSystem.RemoveAllWindows();
             LastFocusedManager = AddManager();
         }
 
+        public bool AnyWindowsOpen() => Managers.Any( x => x.IsOpen );
+
         public void Show() {
-            Visible = true;
             Managers.ForEach( x => x.Show() );
         }
 
-        public override void Draw() {
-            if( !Visible ) return;
-            WindowSystem.Draw();
-        }
-
-        public void Hide() {
-            Visible = false;
-        }
+        public override void Draw() => WindowSystem.Draw();
     }
 }

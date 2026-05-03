@@ -10,6 +10,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using VfxEditor.FileBrowser;
+using VfxEditor.FileManager;
 using VfxEditor.FileManager.Interfaces;
 using VfxEditor.Select;
 using VfxEditor.Ui.Export;
@@ -74,8 +75,14 @@ namespace VfxEditor {
             await Task.Run( async () => {
                 await Task.Delay( 100 );
                 WorkspaceFileCount = Groups.Count - 1;
-                foreach( var manager in Groups.Where( x => x != null ) ) manager.Reset( false );
-                AddDefaultDocuments();
+
+                foreach( var group in Groups.Where( x => x != null ) ) {
+                    var isOpen = group.AnyWindowsOpen();
+                    group.Reset( false );
+                    if( group is FileManagerGroupBase g ) g.AddDefaultDocument();
+                    if( isOpen ) group.Show();
+                }
+
                 FileBrowserManager.Dispose();
                 ExportDialog.Reset();
 
@@ -203,7 +210,12 @@ namespace VfxEditor {
                     Directory.CreateDirectory( saveLocation );
 
                     var meta = new Dictionary<string, string>();
-                    Groups.ForEach( x => x?.WorkspaceExport( meta, saveLocation ) );
+                    var windows = new Dictionary<string, WorkspaceWindow[]>();
+                    Groups.ForEach( x => x?.WorkspaceExport( meta, saveLocation, windows ) );
+                    meta["windows"] = JsonConvert.SerializeObject( new WorkspaceWindowMeta() {
+                        Windows = windows
+                    } );
+
                     PenumbraDialog.WorkspaceExport( meta );
 
                     var metaPath = Path.Combine( saveLocation, "vfx_workspace.json" );
