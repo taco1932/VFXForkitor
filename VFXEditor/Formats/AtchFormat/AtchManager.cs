@@ -4,7 +4,7 @@ using VfxEditor.Utils;
 
 namespace VfxEditor.Formats.AtchFormat {
     public unsafe class AtchManager : FileManager<AtchDocument, AtchFile, WorkspaceMetaBasic> {
-        public AtchManager() : base( "Atch Editor", "Atch" ) {
+        public AtchManager( AtchManagerGroup group ) : base( group ) {
             SourceSelect = new AtchSelectDialog( "Atch Select [LOADED]", this, true );
             ReplaceSelect = new AtchSelectDialog( "Atch Select [REPLACED]", this, false );
         }

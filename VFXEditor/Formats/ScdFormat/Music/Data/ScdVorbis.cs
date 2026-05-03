@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Text;
+using VfxEditor.Formats.ScdFormat;
 using VfxEditor.Formats.ScdFormat.Utils;
 
 namespace VfxEditor.ScdFormat.Music.Data {
@@ -193,7 +194,7 @@ namespace VfxEditor.ScdFormat.Music.Data {
 
         public static ScdAudioEntry ImportWav( string path, ScdAudioEntry oldEntry ) {
             ScdUtils.ConvertWavToOgg( path );
-            return ImportOgg( ScdManager.ConvertOgg, oldEntry );
+            return ImportOgg( ScdManagerGroup.ConvertOgg, oldEntry );
         }
 
         // ================================

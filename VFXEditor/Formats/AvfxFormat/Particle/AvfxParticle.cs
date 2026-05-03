@@ -10,8 +10,6 @@ namespace VfxEditor.AvfxFormat {
     public class AvfxParticle : AvfxNodeWithData<ParticleType> {
         public const string NAME = "Ptcl";
 
-        public readonly AvfxFile File;
-
         public readonly AvfxInt LoopStart = new( "Loop Start", "LpSt" );
         public readonly AvfxInt LoopEnd = new( "Loop End", "LpEd" );
         public readonly AvfxEnum<RotationDirectionBase> RotationDirectionBaseType = new( "Rotation Direction Base", "RBDT" );
@@ -91,8 +89,7 @@ namespace VfxEditor.AvfxFormat {
         public readonly AvfxDisplaySplitView<AvfxItem> TextureDisplaySplit;
         private readonly UiDisplayList Parameters;
 
-        public AvfxParticle( AvfxFile file, AvfxNodeGroupSet groupSet ) : base( NAME, AvfxNodeGroupSet.ParticleColor, "PrVT" ) {
-            File = file;
+        public AvfxParticle( AvfxFile file, AvfxNodeGroupSet groupSet ) : base( file, NAME, AvfxNodeGroupSet.ParticleColor, "PrVT" ) {
             NodeGroups = groupSet;
 
             // Initialize the remaining ones
@@ -182,7 +179,7 @@ namespace VfxEditor.AvfxFormat {
             // Drawing
 
             Parameters = new( "Parameters", [
-                new UiNodeGraphView( this ),
+                new UiNodeGraphView( file, this ),
                 LoopStart,
                 LoopEnd,
                 SimpleAnimEnable,

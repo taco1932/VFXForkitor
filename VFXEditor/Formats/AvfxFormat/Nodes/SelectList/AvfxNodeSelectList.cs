@@ -14,7 +14,7 @@ namespace VfxEditor.AvfxFormat {
         public readonly string Name;
 
         private bool Enabled = true;
-        private int Limit;
+        private readonly int Limit;
 
         public AvfxNodeSelectList( AvfxNode node, string name, NodeGroup<T> group, AvfxIntList literal, int limit = 4 ) : base( node ) {
             Name = name;
@@ -163,7 +163,7 @@ namespace VfxEditor.AvfxFormat {
                 ImGui.SameLine();
                 using( var font = ImRaii.PushFont( UiBuilder.IconFont ) ) {
                     using var dimmed = ImRaii.PushStyle( ImGuiStyleVar.Alpha, 0.5f, Selected[idx] == null );
-                    if( ImGui.Button( FontAwesomeIcon.Share.ToIconString() ) ) Plugin.AvfxManager.File.SelectItem( Selected[idx] );
+                    if( ImGui.Button( FontAwesomeIcon.Share.ToIconString() ) ) File.SelectItem( Selected[idx] );
                 }
 
                 UiUtils.Tooltip( "Navigate to selected node" );

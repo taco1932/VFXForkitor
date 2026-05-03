@@ -1,10 +1,11 @@
 using VfxEditor.FileManager;
+using VfxEditor.Formats.PapFormat;
 using VfxEditor.Select.Formats;
 using VfxEditor.Utils;
 
 namespace VfxEditor.PapFormat {
     public class PapManager : FileManager<PapDocument, PapFile, WorkspaceMetaBasic> {
-        public PapManager() : base( "Pap Editor", "Pap" ) {
+        public PapManager( PapManagerGroup group ) : base( group ) {
             SourceSelect = new PapSelectDialog( "Pap Select [LOADED]", this, true );
             ReplaceSelect = new PapSelectDialog( "Pap Select [REPLACED]", this, false );
         }

@@ -14,7 +14,7 @@ using VfxEditor.Ui.Export;
 using VfxEditor.Utils;
 
 namespace VfxEditor.Formats.TextureFormat {
-    public class TextureManager : DalamudWindow, IFileManager {
+    public class TextureManager : DalamudWindow, IFileManagerGroup, IFileManagerSelect {
         private int TEX_ID = 0;
         public static string TempAtex => Path.Combine( Plugin.Configuration.WriteLocation, "temp_convert.atex" ).Replace( '\\', '/' );
         public static string TempPng => Path.Combine( Plugin.Configuration.WriteLocation, "temp_png.png" ).Replace( '\\', '/' );
@@ -117,9 +117,9 @@ namespace VfxEditor.Formats.TextureFormat {
             }
         }
 
-        public bool FileExists( string path ) => IFileManager.FileExist( this, path );
+        public bool FileExists( string path ) => IFileManagerGroup.FileExist( this, path );
 
-        public bool GetReplacePath( string path, out string replacePath ) => IFileManager.GetReplacePath( this, path, out replacePath );
+        public bool GetReplacePath( string path, out string replacePath ) => IFileManagerGroup.GetReplacePath( this, path, out replacePath );
 
         public bool DoDebug( string path ) => path.Contains( ".atex" ) || path.Contains( ".tex" );
 

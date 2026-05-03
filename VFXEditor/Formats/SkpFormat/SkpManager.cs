@@ -4,7 +4,7 @@ using VfxEditor.Utils;
 
 namespace VfxEditor.Formats.SkpFormat {
     public unsafe class SkpManager : FileManager<SkpDocument, SkpFile, WorkspaceMetaBasic> {
-        public SkpManager() : base( "Skp Editor", "Skp" ) {
+        public SkpManager( SkpManagerGroup group ) : base( group ) {
             SourceSelect = new SkpSelectDialog( "Skp Select [LOADED]", this, true );
             ReplaceSelect = new SkpSelectDialog( "Skp Select [REPLACED]", this, false );
         }

@@ -1,10 +1,11 @@
 using VfxEditor.FileManager;
+using VfxEditor.Formats.UldFormat;
 using VfxEditor.Select.Formats;
 using VfxEditor.Utils;
 
 namespace VfxEditor.UldFormat {
     public unsafe class UldManager : FileManager<UldDocument, UldFile, WorkspaceMetaRenamed> {
-        public UldManager() : base( "Uld Editor", "Uld" ) {
+        public UldManager( UldManagerGroup group ) : base( group ) {
             SourceSelect = new UldSelectDialog( "Uld Select [LOADED]", this, true );
             ReplaceSelect = new UldSelectDialog( "Uld Select [REPLACED]", this, false );
         }

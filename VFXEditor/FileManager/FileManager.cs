@@ -1,4 +1,5 @@
 using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Windowing;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -9,21 +10,19 @@ using VfxEditor.Ui.Export;
 using VfxEditor.Utils;
 
 namespace VfxEditor.FileManager {
-    public abstract partial class FileManager<T, R, S> : FileManagerBase, IFileManager where T : FileManagerDocument<R, S> where R : FileManagerFile {
-        public T ActiveDocument { get; protected set; }
-        public R? File => ActiveDocument?.File;
+    public abstract partial class FileManager<D, F, S> : FileManagerBase, IFileManager where D : FileManagerDocument<F, S> where F : FileManagerFile {
+        public D ActiveDocument { get; protected set; }
+        public F? File => ActiveDocument?.File;
 
         private int DOC_ID = 0;
-        public override string NewWriteLocation => Path.Combine( Plugin.Configuration.WriteLocation, $"{Id}Temp{DOC_ID++}.{Extension}" ).Replace( '\\', '/' );
+        public override string NewWriteLocation => Path.Combine( Plugin.Configuration.WriteLocation, $"{FormatName}Temp{DOC_ID++}.{Extension}" ).Replace( '\\', '/' );
 
-        private readonly FileManagerDocumentWindow<T, R, S> DocumentWindow;
-        public readonly List<T> Documents = [];
+        private readonly FileManagerDocumentWindow<D, F, S> DocumentWindow;
+        public readonly List<D> Documents = [];
 
-        public FileManager( string title, string id ) : this( title, id, id.ToLower(), id, id ) { }
-
-        public FileManager( string title, string id, string extension, string workspaceKey, string workspacePath ) : base( title, id, extension, workspaceKey, workspacePath ) {
+        public FileManager( FileManagerGroupBase group ) : base( group ) {
             AddDocument();
-            DocumentWindow = new( title, this );
+            DocumentWindow = new( Title, this );
         }
 
         // ===================
@@ -49,18 +48,18 @@ namespace VfxEditor.FileManager {
 
         // ====================
 
-        protected abstract T GetNewDocument();
+        protected abstract D GetNewDocument();
 
         public void AddDocument() {
             ActiveDocument = GetNewDocument();
             Documents.Add( ActiveDocument );
         }
 
-        public void SelectDocument( T document ) {
+        public void SelectDocument( D document ) {
             ActiveDocument = document;
         }
 
-        public bool RemoveDocument( T document ) {
+        public bool RemoveDocument( D document ) {
             Documents.Remove( document );
             document.Dispose();
 
@@ -69,51 +68,29 @@ namespace VfxEditor.FileManager {
 
             ExportDialog.RemoveDocument( document );
 
-            if( document == ActiveDocument ) {
+            if( document == ActiveDocument && Documents.Count > 0 ) {
                 ActiveDocument = Documents[0];
                 return true;
             }
             return false;
         }
 
-        // ====================
-
         public IEnumerable<IFileDocument> GetDocuments() => Documents;
 
-        public void WorkspaceImport( JObject meta, string loadLocation ) {
-            var items = WorkspaceUtils.ReadFromMeta<S>( meta, WorkspaceKey );
+        public void WorkspaceImport( JObject meta, string loadLocation, string key, string path ) {
+            var items = WorkspaceUtils.ReadFromMeta<S>( meta, key );
             if( items == null || items.Length == 0 ) {
                 AddDocument();
                 return;
             }
             foreach( var item in items ) {
-                var newDocument = GetWorkspaceDocument( item, Path.Combine( loadLocation, WorkspacePath ) );
+                var newDocument = GetWorkspaceDocument( item, Path.Combine( loadLocation, path ) );
                 ActiveDocument = newDocument;
                 Documents.Add( newDocument );
             }
         }
 
-        protected abstract T GetWorkspaceDocument( S data, string localPath );
-
-        public void WorkspaceExport( Dictionary<string, string> meta, string saveLocation ) {
-            var rootPath = Path.Combine( saveLocation, WorkspacePath );
-            Directory.CreateDirectory( rootPath );
-
-            List<S> documentMeta = [];
-            foreach( var (document, idx) in Documents.WithIndex() ) {
-                document.WorkspaceExport( documentMeta, rootPath, $"{Id}Temp{idx}.{Extension}" );
-            }
-
-            WorkspaceUtils.WriteToMeta( meta, documentMeta.ToArray(), WorkspaceKey );
-        }
-
-        // ====================
-
-        public bool FileExists( string path ) => IFileManager.FileExist( this, path );
-
-        public bool GetReplacePath( string path, out string replacePath ) => IFileManager.GetReplacePath( this, path, out replacePath );
-
-        public bool DoDebug( string path ) => path.Contains( $".{Extension}" );
+        protected abstract D GetWorkspaceDocument( S data, string localPath );
 
         public virtual void Reset( ResetType type ) {
             Documents.ForEach( x => x.Dispose() );

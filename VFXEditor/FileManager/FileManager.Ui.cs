@@ -7,12 +7,14 @@ using VfxEditor.Data.Copy;
 using VfxEditor.Utils;
 
 namespace VfxEditor.FileManager {
-    public abstract partial class FileManager<T, R, S> : FileManagerBase where T : FileManagerDocument<R, S> where R : FileManagerFile {
-        private T DraggingItem;
+    public abstract partial class FileManager<D, F, S> : FileManagerBase where D : FileManagerDocument<F, S> where F : FileManagerFile {
+        private D DraggingItem;
 
         protected virtual void DrawEditMenuItems() { }
 
         public override void DrawBody() {
+            if( ImGui.IsWindowFocused() ) Group.SetLastFocusedManager( this );
+
             using var copy = new CopyRaii( Copy );
             using var command = new CommandRaii( File?.Command );
 
@@ -26,9 +28,9 @@ namespace VfxEditor.FileManager {
                 Title
 #endif
                 + ( string.IsNullOrEmpty( Plugin.CurrentWorkspaceName ) ? "" : $" [{Plugin.CurrentWorkspaceName}]" )
-                + $"###{Title}";
+                + $"###{Title}-{ManagerId}";
 
-            using var _ = ImRaii.PushId( Id );
+            using var _ = ImRaii.PushId( $"{FormatName}-{ManagerId}" );
             DrawMenu();
             if( Plugin.Configuration.ShowTabBar ) {
                 DrawTabs();

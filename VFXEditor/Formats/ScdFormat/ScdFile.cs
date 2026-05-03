@@ -73,7 +73,7 @@ namespace VfxEditor.ScdFormat {
                 Verified = VerifiedStatus.UNSUPPORTED;
             }
 
-            AudioSplitView = new( Audio );
+            AudioSplitView = new( this, Audio );
             SoundView = new( "Sound", Sounds, true, null, () => new ScdSoundEntry() );
             TrackView = new( "Track", Tracks, false, null, () => new ScdTrackEntry() );
             AttributeView = new( "Attribute", Attributes, false );

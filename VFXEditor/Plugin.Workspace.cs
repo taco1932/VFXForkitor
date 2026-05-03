@@ -73,8 +73,8 @@ namespace VfxEditor {
             State = WorkspaceState.Loading;
             await Task.Run( async () => {
                 await Task.Delay( 100 );
-                WorkspaceFileCount = Managers.Count - 1;
-                foreach( var manager in Managers.Where( x => x != null ) ) manager.Reset( ResetType.ToDefault );
+                WorkspaceFileCount = Groups.Count - 1;
+                foreach( var manager in Groups.Where( x => x != null ) ) manager.Reset( ResetType.ToDefault );
                 FileBrowserManager.Dispose();
                 ExportDialog.Reset();
 
@@ -134,9 +134,9 @@ namespace VfxEditor {
                 return false;
             }
 
-            var offsets = new Dictionary<IFileManager, int>(); // Number of documents before import
+            var offsets = new Dictionary<IFileManagerGroup, int>(); // Number of documents before import
             var meta = JObject.Parse( File.ReadAllText( metaPath ) );
-            foreach( var manager in Managers.Where( x => x != null ) ) {
+            foreach( var manager in Groups.Where( x => x != null ) ) {
                 if( reset ) manager.Reset( ResetType.Reset );
                 offsets[manager] = manager.GetDocuments().Count();
                 manager.WorkspaceImport( meta, loadLocation );
@@ -152,7 +152,7 @@ namespace VfxEditor {
 
         private static void DrawLoadingDialog() {
             if( ImGui.Begin( "Loading Workspace...", ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoDocking ) ) {
-                var count = WorkspaceFileCount == 0 ? 0 : Managers.Where( x => x != null ).Select( x => x.GetDocuments().Count() ).Sum();
+                var count = WorkspaceFileCount == 0 ? 0 : Groups.Where( x => x != null ).Select( x => x.GetDocuments().Count() ).Sum();
                 ImGui.Text( $"{count} / {WorkspaceFileCount}" );
 
                 var pos = ImGui.GetCursorScreenPos();
@@ -202,7 +202,7 @@ namespace VfxEditor {
                     Directory.CreateDirectory( saveLocation );
 
                     var meta = new Dictionary<string, string>();
-                    Managers.ForEach( x => x?.WorkspaceExport( meta, saveLocation ) );
+                    Groups.ForEach( x => x?.WorkspaceExport( meta, saveLocation ) );
                     PenumbraDialog.WorkspaceExport( meta );
 
                     var metaPath = Path.Combine( saveLocation, "vfx_workspace.json" );

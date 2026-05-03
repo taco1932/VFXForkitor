@@ -4,7 +4,7 @@ using VfxEditor.Utils;
 
 namespace VfxEditor.Formats.ShpkFormat {
     public unsafe class ShpkManager : FileManager<ShpkDocument, ShpkFile, WorkspaceMetaBasic> {
-        public ShpkManager() : base( "Shpk Editor", "Shpk" ) {
+        public ShpkManager( ShpkManagerGroup group ) : base( group ) {
             SourceSelect = new ShpkSelectDialog( "Shpk Select [LOADED]", this, true );
             ReplaceSelect = new ShpkSelectDialog( "Shpk Select [REPLACED]", this, false );
         }

@@ -1,10 +1,11 @@
 using VfxEditor.FileManager;
+using VfxEditor.Formats.EidFormat;
 using VfxEditor.Select.Formats;
 using VfxEditor.Utils;
 
 namespace VfxEditor.EidFormat {
     public unsafe class EidManager : FileManager<EidDocument, EidFile, WorkspaceMetaBasic> {
-        public EidManager() : base( "Eid Editor", "Eid" ) {
+        public EidManager( EidManagerGroup group ) : base( group ) {
             SourceSelect = new EidSelectDialog( "Eid Select [LOADED]", this, true );
             ReplaceSelect = new EidSelectDialog( "Eid Select [REPLACED]", this, false );
 

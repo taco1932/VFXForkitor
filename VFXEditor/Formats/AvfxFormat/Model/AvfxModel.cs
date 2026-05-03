@@ -17,8 +17,6 @@ namespace VfxEditor.AvfxFormat {
     public class AvfxModel : AvfxNode {
         public const string NAME = "Modl";
 
-        public readonly AvfxFile File;
-
         public readonly AvfxVertexes Vertexes = new();
         public readonly AvfxIndexes Indexes = new();
         public readonly AvfxEmitVertexes EmitVertexes = new();
@@ -39,9 +37,7 @@ namespace VfxEditor.AvfxFormat {
         private int Mode = ( int )RenderMode.Color;
         private readonly UiModelUvView UvView;
 
-        public AvfxModel( AvfxFile file ) : base( NAME, AvfxNodeGroupSet.ModelColor ) {
-            File = file;
-
+        public AvfxModel( AvfxFile file ) : base( file, NAME, AvfxNodeGroupSet.ModelColor ) {
             Parsed = [
                 EmitVertexNumbers,
                 EmitVertexes,
@@ -49,7 +45,7 @@ namespace VfxEditor.AvfxFormat {
                 Indexes
             ];
 
-            NodeView = new( this );
+            NodeView = new( file, this );
             UvView = new UiModelUvView();
 
             VertexNumberTable = new( "Number", true, true, AllVertexNumbers, [

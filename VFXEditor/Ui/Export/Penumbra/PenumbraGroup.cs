@@ -18,7 +18,7 @@ namespace VfxEditor.Ui.Export.Penumbra {
         }
 
         // Used for workspace imports
-        public PenumbraGroup( PenumbraGroupStruct workspaceGroup, Dictionary<IFileManager, int> offsets ) : this() {
+        public PenumbraGroup( PenumbraGroupStruct workspaceGroup, Dictionary<IFileManagerGroup, int> offsets ) : this() {
             Name = workspaceGroup.Name;
             Type = workspaceGroup.Type;
             Priority = workspaceGroup.Priority;

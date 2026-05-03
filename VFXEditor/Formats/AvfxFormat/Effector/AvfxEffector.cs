@@ -9,8 +9,6 @@ namespace VfxEditor.AvfxFormat {
     public class AvfxEffector : AvfxNodeWithData<EffectorType> {
         public const string NAME = "Efct";
 
-        public readonly AvfxFile File;
-
         public readonly AvfxEnum<RotationOrder> RotationOrder = new( "Rotation Order", "RoOT" );
         public readonly AvfxEnum<CoordComputeOrder> CoordComputeOrder = new( "Coordinate Compute Order", "CCOT" );
         public readonly AvfxBool AffectOtherVfx = new( "Affect Other VFX", "bAOV" );
@@ -22,9 +20,7 @@ namespace VfxEditor.AvfxFormat {
 
         private readonly UiDisplayList Parameters;
 
-        public AvfxEffector( AvfxFile file ) : base( NAME, AvfxNodeGroupSet.EffectorColor, "EfVT" ) {
-            File = file;
-
+        public AvfxEffector( AvfxFile file ) : base( file, NAME, AvfxNodeGroupSet.EffectorColor, "EfVT" ) {
             Parsed = [
                 Type,
                 RotationOrder,
@@ -36,7 +32,7 @@ namespace VfxEditor.AvfxFormat {
             ];
 
             Parameters = new( "Parameters", [
-                new UiNodeGraphView( this ),
+                new UiNodeGraphView( file, this ),
                 RotationOrder,
                 CoordComputeOrder,
                 AffectOtherVfx,
@@ -44,7 +40,6 @@ namespace VfxEditor.AvfxFormat {
                 LoopPointStart,
                 LoopPointEnd
             ] );
-            File = file;
         }
 
         public override void ReadContents( BinaryReader reader, int size ) {

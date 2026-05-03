@@ -1,4 +1,5 @@
 using VfxEditor.FileManager;
+using VfxEditor.Formats.TmbFormat;
 using VfxEditor.Select;
 using VfxEditor.Select.Formats;
 using VfxEditor.Spawn;
@@ -6,7 +7,7 @@ using VfxEditor.Utils;
 
 namespace VfxEditor.TmbFormat {
     public partial class TmbManager : FileManager<TmbDocument, TmbFile, WorkspaceMetaBasic> {
-        public TmbManager() : base( "Tmb Editor", "Tmb" ) {
+        public TmbManager( TmbManagerGroup group ) : base( group ) {
             SourceSelect = new TmbSelectDialog( "Tmb Select [LOADED]", this, true );
             ReplaceSelect = new TmbSelectDialog( "Tmb Select [REPLACED]", this, false );
         }

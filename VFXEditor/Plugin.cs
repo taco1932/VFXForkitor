@@ -4,33 +4,33 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using System.Collections.Generic;
-using VfxEditor.AvfxFormat;
 using VfxEditor.DirectX;
-using VfxEditor.EidFormat;
 using VfxEditor.FileBrowser;
 using VfxEditor.FileManager.Interfaces;
 using VfxEditor.Formats.AtchFormat;
+using VfxEditor.Formats.AvfxFormat;
+using VfxEditor.Formats.EidFormat;
 using VfxEditor.Formats.KdbFormat;
 using VfxEditor.Formats.MdlFormat;
 using VfxEditor.Formats.MtrlFormat;
+using VfxEditor.Formats.PapFormat;
 using VfxEditor.Formats.PbdFormat;
+using VfxEditor.Formats.PhybFormat;
+using VfxEditor.Formats.ScdFormat;
 using VfxEditor.Formats.ShcdFormat;
 using VfxEditor.Formats.ShpkFormat;
+using VfxEditor.Formats.SklbFormat;
 using VfxEditor.Formats.SkpFormat;
 using VfxEditor.Formats.TextureFormat;
+using VfxEditor.Formats.TmbFormat;
+using VfxEditor.Formats.UldFormat;
 using VfxEditor.Interop;
 using VfxEditor.Interop.Penumbra;
 using VfxEditor.Library;
-using VfxEditor.PapFormat;
-using VfxEditor.PhybFormat;
-using VfxEditor.ScdFormat;
-using VfxEditor.SklbFormat;
 using VfxEditor.Spawn;
-using VfxEditor.TmbFormat;
 using VfxEditor.Tracker;
 using VfxEditor.Ui.Export;
 using VfxEditor.Ui.Tools;
-using VfxEditor.UldFormat;
 
 namespace VfxEditor {
     public unsafe partial class Plugin : IDalamudPlugin {
@@ -47,7 +47,7 @@ namespace VfxEditor {
 
         public static WindowSystem WindowSystem { get; private set; }
 
-        public static List<IFileManager> Managers => [
+        public static List<IFileManagerGroup> Groups => [
             TextureManager,
             AvfxManager,
             TmbManager,
@@ -67,23 +67,23 @@ namespace VfxEditor {
             PbdManager,
         ];
 
-        public static AvfxManager AvfxManager { get; private set; }
+        public static AvfxManagerGroup AvfxManager { get; private set; }
         public static TextureManager TextureManager { get; private set; }
-        public static TmbManager TmbManager { get; private set; }
-        public static PapManager PapManager { get; private set; }
-        public static ScdManager ScdManager { get; private set; }
-        public static EidManager EidManager { get; private set; }
-        public static UldManager UldManager { get; private set; }
-        public static PhybManager PhybManager { get; private set; }
-        public static SklbManager SklbManager { get; private set; }
-        public static AtchManager AtchManager { get; private set; }
-        public static SkpManager SkpManager { get; private set; }
-        public static ShpkManager ShpkManager { get; private set; }
-        public static ShcdManager ShcdManager { get; private set; }
-        public static MtrlManager MtrlManager { get; private set; }
-        public static MdlManager MdlManager { get; private set; }
-        public static KdbManager KdbManager { get; private set; }
-        public static PbdManager PbdManager { get; private set; }
+        public static TmbManagerGroup TmbManager { get; private set; }
+        public static PapManagerGroup PapManager { get; private set; }
+        public static ScdManagerGroup ScdManager { get; private set; }
+        public static EidManagerGroup EidManager { get; private set; }
+        public static UldManagerGroup UldManager { get; private set; }
+        public static PhybManagerGroup PhybManager { get; private set; }
+        public static SklbManagerGroup SklbManager { get; private set; }
+        public static AtchManagerGroup AtchManager { get; private set; }
+        public static SkpManagerGroup SkpManager { get; private set; }
+        public static ShpkManagerGroup ShpkManager { get; private set; }
+        public static ShcdManagerGroup ShcdManager { get; private set; }
+        public static MtrlManagerGroup MtrlManager { get; private set; }
+        public static MdlManagerGroup MdlManager { get; private set; }
+        public static KdbManagerGroup KdbManager { get; private set; }
+        public static PbdManagerGroup PbdManager { get; private set; }
 
         public static string RootLocation { get; private set; }
 #if BETA
@@ -162,7 +162,7 @@ namespace VfxEditor {
                 AvfxManager?.Show();
                 return;
             }
-            if( Managers.FindFirst( x => rawArgs.ToLower().Equals( x.GetId().ToLower() ), out var manager ) ) manager.Show();
+            if( Groups.FindFirst( x => rawArgs.ToLower().Equals( x.GetId().ToLower() ), out var manager ) ) manager.Show();
         }
 
         public void Dispose() {
@@ -179,7 +179,7 @@ namespace VfxEditor {
             ResourceLoader = null;
 
             TextureManager.FreeLibrary();
-            Managers.ForEach( x => x?.Reset( ResetType.PluginClosing ) );
+            Groups.ForEach( x => x?.Reset( ResetType.PluginClosing ) );
             DirectXManager?.Dispose();
 
             WindowSystem.RemoveAllWindows();

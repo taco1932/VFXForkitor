@@ -94,22 +94,22 @@ namespace VfxEditor {
             using var _ = ImRaii.PushId( "Menu" );
 
             // Manually specify the order since it's different than the load order
-            var categories = new List<IFileManager[]> {
-                new IFileManager[]{
+            var categories = new List<IFileManagerGroup[]> {
+                new IFileManagerGroup[]{
                     AvfxManager,
                     TextureManager
                 },
-                new IFileManager[]{
+                new IFileManagerGroup[]{
                     TmbManager,
                     PapManager,
                 },
-                new IFileManager[]{
+                new IFileManagerGroup[]{
                     ScdManager
                 },
-                new IFileManager[]{
+                new IFileManagerGroup[]{
                     UldManager
                 },
-                new IFileManager[]{
+                new IFileManagerGroup[]{
                     SklbManager,
                     SkpManager,
                     PhybManager,
@@ -118,7 +118,7 @@ namespace VfxEditor {
                     KdbManager,
                     PbdManager,
                 },
-                new IFileManager[]{
+                new IFileManagerGroup[]{
                     MdlManager,
                     MtrlManager,
                     ShpkManager,

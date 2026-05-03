@@ -4,7 +4,7 @@ using VfxEditor.Utils;
 
 namespace VfxEditor.Formats.MdlFormat {
     public unsafe class MdlManager : FileManager<MdlDocument, MdlFile, WorkspaceMetaBasic> {
-        public MdlManager() : base( "Mdl Editor", "Mdl" ) {
+        public MdlManager( MdlManagerGroup group ) : base( group ) {
             SourceSelect = new MdlSelectDialog( "Mdl Select [LOADED]", this, true );
             ReplaceSelect = new MdlSelectDialog( "Mdl Select [REPLACED]", this, false );
         }

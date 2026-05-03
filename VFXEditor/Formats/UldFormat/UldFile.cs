@@ -61,7 +61,7 @@ namespace VfxEditor.UldFormat {
             if( OffsetsHeader.PartOffset > 0 ) {
                 reader.Seek( offsetsPosition + OffsetsHeader.PartOffset );
                 PartList = new( reader );
-                for( var i = 0; i < PartList.ElementCount; i++ ) Parts.Add( new( reader ) );
+                for( var i = 0; i < PartList.ElementCount; i++ ) Parts.Add( new( this, reader ) );
             }
             else PartList = new( "tphd", "0100" );
 
@@ -69,7 +69,7 @@ namespace VfxEditor.UldFormat {
             if( OffsetsHeader.ComponentOffset > 0 ) {
                 reader.Seek( offsetsPosition + OffsetsHeader.ComponentOffset );
                 ComponentList = new( reader );
-                for( var i = 0; i < ComponentList.ElementCount; i++ ) Components.Add( new( reader, Components ) );
+                for( var i = 0; i < ComponentList.ElementCount; i++ ) Components.Add( new( this, reader, Components ) );
             }
             else ComponentList = new( "cohd", "0100" );
 
@@ -89,7 +89,7 @@ namespace VfxEditor.UldFormat {
             if( OffsetsHeader2.WidgetOffset > 0 ) {
                 reader.Seek( offsetsPosition2 + OffsetsHeader2.WidgetOffset );
                 WidgetList = new( reader );
-                for( var i = 0; i < WidgetList.ElementCount; i++ ) Widgets.Add( new( reader, Components ) );
+                for( var i = 0; i < WidgetList.ElementCount; i++ ) Widgets.Add( new( this, reader, Components ) );
             }
             else WidgetList = new( "wdhd", "0100" );
 
@@ -103,16 +103,16 @@ namespace VfxEditor.UldFormat {
                 ( item, idx ) => item.GetText(), () => new( UldWorkspaceItem.GetNextId( Textures ) ) );
 
             PartsSplitView = new( "Part List", Parts, true,
-                ( item, idx ) => item.GetText(), () => new( UldWorkspaceItem.GetNextId( Parts ) ) );
+                ( item, idx ) => item.GetText(), () => new( this, UldWorkspaceItem.GetNextId( Parts ) ) );
 
             ComponentDropdown = new( "Component", Components,
-                ( item, idx ) => item.GetText(), () => new( UldWorkspaceItem.GetNextId( Components ), Components ) );
+                ( item, idx ) => item.GetText(), () => new( this, UldWorkspaceItem.GetNextId( Components ), Components ) );
 
             TimelineDropdown = new( "Timeline", Timelines,
                 ( item, idx ) => item.GetText(), () => new( UldWorkspaceItem.GetNextId( Timelines ) ) );
 
             WidgetDropdown = new( "Widget", Widgets,
-                ( item, idx ) => item.GetText(), () => new( UldWorkspaceItem.GetNextId( Widgets ), Components ) );
+                ( item, idx ) => item.GetText(), () => new( this, UldWorkspaceItem.GetNextId( Widgets ), Components ) );
         }
 
         public override void Write( BinaryWriter writer ) {
