@@ -28,9 +28,7 @@
 - [ ] Update "try on" preview
 
 
-- [ ] Drag tabs into other windows
 - [ ] Merge windows
-- [ ] Store window size and position in workspace
 - [ ] Highlight the bar
 
 ```

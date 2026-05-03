@@ -37,5 +37,7 @@ namespace VfxEditor.FileManager {
         public abstract void ToNewWindow( FileManagerBase currentManager, IFileDocument document );
 
         public abstract void DrawCloseWindow( FileManagerBase manager );
+
+        public abstract bool DrawDragDrop( FileManagerBase manager, IFileDocument document, string documentName );
     }
 }

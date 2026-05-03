@@ -268,11 +268,11 @@ namespace VfxEditor.Utils {
 
         private delegate bool DrawRadiansInputDelegate<T>( string label, ref T value );
 
-        public static bool DrawRadians( string name, float oldValue, out float newValue ) => DrawRadians( name, oldValue, out newValue, ToDegrees, ToRadians, ( string label, ref float value ) => ImGui.InputFloat( label, ref value ) );
+        public static bool DrawRadians( string name, float oldValue, out float newValue ) => DrawRadians( name, oldValue, out newValue, ToDegrees, ToRadians, ( label, ref value ) => ImGui.InputFloat( label, ref value ) );
 
-        public static bool DrawRadians3( string name, Vector3 oldValue, out Vector3 newValue ) => DrawRadians( name, oldValue, out newValue, ToDegrees, ToRadians, ( string label, ref Vector3 value ) => ImGui.InputFloat3( label, ref value ) );
+        public static bool DrawRadians3( string name, Vector3 oldValue, out Vector3 newValue ) => DrawRadians( name, oldValue, out newValue, ToDegrees, ToRadians, ( label, ref value ) => ImGui.InputFloat3( label, ref value ) );
 
-        public static bool DrawRadians4( string name, Vector4 oldValue, out Vector4 newValue ) => DrawRadians( name, oldValue, out newValue, ToDegrees, ToRadians, ( string label, ref Vector4 value ) => ImGui.InputFloat4( label, ref value ) );
+        public static bool DrawRadians4( string name, Vector4 oldValue, out Vector4 newValue ) => DrawRadians( name, oldValue, out newValue, ToDegrees, ToRadians, ( label, ref value ) => ImGui.InputFloat4( label, ref value ) );
 
         private static bool DrawRadians<T>( string name, T oldValue, out T newValue, Func<T, T> toDegrees, Func<T, T> toRadians, DrawRadiansInputDelegate<T> input ) {
             newValue = oldValue;

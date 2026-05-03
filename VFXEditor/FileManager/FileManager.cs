@@ -56,7 +56,7 @@ namespace VfxEditor.FileManager {
         }
 
         public void RemoveDocument( D document, bool dispose = true ) {
-            DraggingItem = null;
+            if( !Documents.Contains( document ) ) return;
             DocumentWindow.Reset();
 
             Documents.Remove( document );
@@ -71,7 +71,20 @@ namespace VfxEditor.FileManager {
             }
         }
 
+        public void MoveDocumentAfter( D document, D targetDocument ) {
+            if( !Documents.Contains( targetDocument ) ) return;
+            if( Documents.Contains( document ) ) Documents.Remove( document );
+            Documents.Insert( Documents.IndexOf( targetDocument ), document );
+        }
+
+        public void InsertDocument( D document, int idx ) {
+            if( Documents.Contains( document ) ) return;
+            Documents.Insert( idx, document );
+            ActiveDocument = document;
+        }
+
         public void InsertDocument( D document ) {
+            if( Documents.Contains( document ) ) return;
             Documents.Add( document );
             ActiveDocument = document;
         }
@@ -93,7 +106,6 @@ namespace VfxEditor.FileManager {
             ReplaceSelect?.Hide();
 
             ActiveDocument = null;
-            DraggingItem = null;
             DocumentWindow.Reset();
         }
     }
