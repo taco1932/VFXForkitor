@@ -27,10 +27,10 @@ namespace VfxEditor.FileManager.Interfaces {
 
         public void Hide();
 
-        public void Reset( ResetType type );
+        public void Reset( bool pluginClosing );
 
         public static bool FileExist( IFileManagerGroup manager, string path ) =>
-    Dalamud.GameFileExists( path ) || Plugin.PenumbraIpc.PenumbraFileExists( path, out var _ ) || manager.GetReplacePath( path, out var _ );
+            Dalamud.GameFileExists( path ) || Plugin.PenumbraIpc.PenumbraFileExists( path, out var _ ) || manager.GetReplacePath( path, out var _ );
 
         public static bool GetReplacePath( IFileManagerGroup manager, string path, out string replacePath ) {
             replacePath = null;

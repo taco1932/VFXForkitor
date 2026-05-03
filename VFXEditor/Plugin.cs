@@ -130,6 +130,7 @@ namespace VfxEditor {
             MdlManager = new();
             KdbManager = new();
             PbdManager = new();
+            AddDefaultDocuments();
 
             ToolsDialog = new();
             PenumbraIpc = new();
@@ -182,7 +183,7 @@ namespace VfxEditor {
             ResourceLoader = null;
 
             TextureManager.FreeLibrary();
-            Groups.ForEach( x => x?.Reset( ResetType.PluginClosing ) );
+            Groups.ForEach( x => x?.Reset( true ) );
             DirectXManager?.Dispose();
 
             WindowSystem.RemoveAllWindows();

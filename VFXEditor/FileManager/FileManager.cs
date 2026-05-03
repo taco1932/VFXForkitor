@@ -1,5 +1,4 @@
 using Dalamud.Bindings.ImGui;
-using Dalamud.Interface.Windowing;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +20,6 @@ namespace VfxEditor.FileManager {
         public readonly List<D> Documents = [];
 
         public FileManager( FileManagerGroupBase group ) : base( group ) {
-            AddDocument();
             DocumentWindow = new( Title, this );
         }
 
@@ -59,29 +57,20 @@ namespace VfxEditor.FileManager {
             ActiveDocument = document;
         }
 
-        public bool RemoveDocument( D document ) {
+        public void RemoveDocument( D document, bool dispose = true ) {
             DraggingItem = null;
             DocumentWindow.Reset();
 
             Documents.Remove( document );
-            document.Dispose();
+            if( dispose ) document.Dispose();
             ExportDialog.RemoveDocument( document );
 
-            if( document == ActiveDocument && Documents.Count > 0 ) {
-                ActiveDocument = Documents[0];
-                return true;
+            if( ActiveDocument == document ) ActiveDocument = Documents.Count > 0 ? Documents[0] : null;
+
+            if( ActiveDocument == null ) {
+                SourceSelect?.Hide();
+                ReplaceSelect?.Hide();
             }
-            return false;
-        }
-
-        // Document is being moved somewhere else
-        public void MoveDocumentOut( D document ) {
-            DraggingItem = null;
-            DocumentWindow.Reset();
-
-            Documents.Remove( document );
-            if( Documents.Count == 0 ) AddDocument(); // There needs to be at least 1 document
-            if( document == ActiveDocument ) ActiveDocument = Documents[0];
         }
 
         public void MoveDocumentIn( D document ) {
@@ -93,10 +82,8 @@ namespace VfxEditor.FileManager {
 
         public void WorkspaceImport( JObject meta, string loadLocation, string key, string path ) {
             var items = WorkspaceUtils.ReadFromMeta<S>( meta, key );
-            if( items == null || items.Length == 0 ) {
-                AddDocument();
-                return;
-            }
+            if( items == null || items.Length == 0 ) return;
+
             foreach( var item in items ) {
                 var newDocument = GetWorkspaceDocument( item, Path.Combine( loadLocation, path ) );
                 ActiveDocument = newDocument;
@@ -106,7 +93,7 @@ namespace VfxEditor.FileManager {
 
         protected abstract D GetWorkspaceDocument( S data, string localPath );
 
-        public virtual void Reset( ResetType type ) {
+        public virtual void Reset( bool pluginClosing ) {
             Documents.ForEach( x => x.Dispose() );
             Documents.Clear();
             SourceSelect?.Hide();
@@ -115,8 +102,6 @@ namespace VfxEditor.FileManager {
             ActiveDocument = null;
             DraggingItem = null;
             DocumentWindow.Reset();
-
-            if( type == ResetType.ToDefault ) AddDocument(); // Default document
         }
     }
 }

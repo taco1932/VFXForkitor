@@ -1,6 +1,6 @@
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
-using Dalamud.Bindings.ImGui;
 using System.Numerics;
 using VfxEditor.Data.Command;
 using VfxEditor.Data.Copy;
@@ -35,6 +35,13 @@ namespace VfxEditor.FileManager {
             if( Plugin.Configuration.ShowTabBar ) {
                 DrawTabs();
                 ImGui.SetCursorPosY( ImGui.GetCursorPosY() + 2 );
+            }
+
+            if( ActiveDocument == null ) { // No documents, make it clear how to add a new one
+                ImGui.SetCursorPos( ImGui.GetCursorPos() + new Vector2( (ImGui.GetContentRegionAvail().X - 150f) / 2f, 25f) );
+                if( ImGui.Button( "NEW", new( 150, 35 ) ) ) AddDocument();
+
+                return;
             }
 
             ActiveDocument?.Draw();
@@ -96,7 +103,7 @@ namespace VfxEditor.FileManager {
 
                     if( UiUtils.DrawDragDrop( Documents, document, document.DisplayName, ref DraggingItem, "DOCUMENT-TABS", false ) ) break;
 
-                    if( !open && Documents.Count > 1 ) ImGui.OpenPopup( "DeletePopup" );
+                    if( !open ) ImGui.OpenPopup( "DeletePopup" );
 
                     if( ImGui.IsItemClicked( ImGuiMouseButton.Left ) && open ) SelectDocument( document );
                     if( ImGui.IsItemClicked( ImGuiMouseButton.Right ) ) ImGui.OpenPopup( "ContextPopup" );

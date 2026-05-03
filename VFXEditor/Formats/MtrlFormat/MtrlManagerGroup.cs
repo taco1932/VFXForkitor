@@ -74,11 +74,11 @@ namespace VfxEditor.Formats.MtrlFormat {
 
         protected override MtrlManager GetNewManager() => new( this );
 
-        public override void Reset( ResetType type ) {
-            base.Reset( type );
+        public override void Reset( bool pluginClosing ) {
+            base.Reset( pluginClosing );
 
             // Clean up textures used for materials
-            if( type == ResetType.PluginClosing ) {
+            if( pluginClosing ) {
                 try {
                     foreach( var wrap in TileDiffuse ) wrap?.Dispose();
                     foreach( var wrap in TileNormal ) wrap?.Dispose();

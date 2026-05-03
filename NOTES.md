@@ -30,7 +30,7 @@
 
 - [ ] Drag tabs into other windows
 - [ ] Merge windows
-- [ ] Pop tab into its own window
+- [ ] Save windows in workspace
 
 ```
 

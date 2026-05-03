@@ -30,6 +30,8 @@ namespace VfxEditor.FileManager {
 
         public abstract void SetLastFocusedManager( FileManagerBase manager );
 
+        public abstract void AddDefaultDocument();
+
         public abstract void Draw();
 
         public abstract void OnClose( FileManagerBase manager );

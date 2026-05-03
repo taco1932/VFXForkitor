@@ -20,6 +20,7 @@ namespace VfxEditor.AvfxFormat {
 
         protected override void DrawEditMenuItems() {
             if( ImGui.BeginMenu( "Templates" ) ) {
+                using var disabledTemplates = ImRaii.Disabled( ActiveDocument == null );
                 if( ImGui.MenuItem( "Blank" ) ) ActiveDocument?.OpenTemplate( "default_vfx.avfx" );
                 if( ImGui.MenuItem( "Weapon" ) ) ActiveDocument?.OpenTemplate( "default_weapon.avfx" );
                 ImGui.EndMenu();
@@ -46,6 +47,6 @@ namespace VfxEditor.AvfxFormat {
             if( ImGui.MenuItem( "Clean Up" ) ) ActiveFile?.Cleanup();
         }
 
-        public void Import( string path ) => ActiveDocument.Import( path );
+        public void Import( string path ) => ActiveDocument?.Import( path );
     }
 }

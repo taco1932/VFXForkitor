@@ -173,7 +173,7 @@ namespace VfxEditor.Formats.TextureFormat {
 
         // ================
 
-        public void Reset( ResetType type ) {
+        public void Reset( bool pluginClosing ) {
             Textures.Clear();
             Previews.Clear();
 

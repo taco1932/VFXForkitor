@@ -166,5 +166,11 @@ namespace VfxEditor {
             Modals[modal.Title] = modal;
             ModalsToOpen.Add( modal.Title ); // To eliminate Imgui ID weirdness
         }
+
+        public static void AddDefaultDocuments() {
+            foreach( var group in Groups ) {
+                if( group is FileManagerGroupBase g ) g.AddDefaultDocument();
+            }
+        }
     }
 }

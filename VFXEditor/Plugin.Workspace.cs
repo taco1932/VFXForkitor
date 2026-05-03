@@ -74,7 +74,8 @@ namespace VfxEditor {
             await Task.Run( async () => {
                 await Task.Delay( 100 );
                 WorkspaceFileCount = Groups.Count - 1;
-                foreach( var manager in Groups.Where( x => x != null ) ) manager.Reset( ResetType.ToDefault );
+                foreach( var manager in Groups.Where( x => x != null ) ) manager.Reset( false );
+                AddDefaultDocuments();
                 FileBrowserManager.Dispose();
                 ExportDialog.Reset();
 
@@ -137,7 +138,7 @@ namespace VfxEditor {
             var offsets = new Dictionary<IFileManagerGroup, int>(); // Number of documents before import
             var meta = JObject.Parse( File.ReadAllText( metaPath ) );
             foreach( var manager in Groups.Where( x => x != null ) ) {
-                if( reset ) manager.Reset( ResetType.Reset );
+                if( reset ) manager.Reset( false );
                 offsets[manager] = manager.GetDocuments().Count();
                 manager.WorkspaceImport( meta, loadLocation );
             }

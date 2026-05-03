@@ -36,12 +36,15 @@ namespace VfxEditor.FileManager {
 
         public override void ToNewWindow( FileManagerBase currentManager, IFileDocument document ) {
             if( ( currentManager is M m ) && ( document is D d ) ) {
-                m.MoveDocumentOut( d );
+                m.RemoveDocument( d, dispose: false );
                 var newManager = AddManager();
                 newManager.Show();
-                newManager.RemoveDocument( newManager.Documents[0] ); // remove the default
                 newManager.MoveDocumentIn( d );
             }
+        }
+
+        public override void AddDefaultDocument() {
+            Managers[0].AddDocument();
         }
 
         public override void OnClose( FileManagerBase manager ) {
@@ -51,7 +54,7 @@ namespace VfxEditor.FileManager {
         public void RemoveManager( M manager ) {
             if( Managers.Count == 1 ) return; // can't remove the last manager
             if( LastFocusedManager == manager ) LastFocusedManager = null;
-            manager.Reset( ResetType.PluginClosing );
+            manager.Reset( false );
             Managers.Remove( manager );
             WindowSystem.RemoveWindow( manager );
         }
@@ -88,10 +91,9 @@ namespace VfxEditor.FileManager {
             if( manager is M m ) LastFocusedManager = m;
         }
 
-        public virtual void Reset( ResetType type ) {
+        public virtual void Reset( bool pluginClosing ) {
             LastFocusedManager = null;
-            Managers[1..].ForEach( x => x.Reset( ResetType.PluginClosing ) );
-            Managers[0].Reset( type );
+            Managers.ForEach( x => x.Reset( pluginClosing ) );
             Managers.RemoveRange( 1, Managers.Count - 1 );
         }
 
