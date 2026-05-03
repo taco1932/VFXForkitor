@@ -27,6 +27,11 @@
 - [ ] Weapons / footsteps / etc. in live view
 - [ ] Update "try on" preview
 
+
+- [ ] Drag tabs into other windows
+- [ ] Merge windows
+- [ ] Pop tab into its own window
+
 ```
 
 https://github.com/sleepybnuuy/eslb-scripting

@@ -60,12 +60,11 @@ namespace VfxEditor.FileManager {
         }
 
         public bool RemoveDocument( D document ) {
-            Documents.Remove( document );
-            document.Dispose();
-
             DraggingItem = null;
             DocumentWindow.Reset();
 
+            Documents.Remove( document );
+            document.Dispose();
             ExportDialog.RemoveDocument( document );
 
             if( document == ActiveDocument && Documents.Count > 0 ) {
@@ -73,6 +72,21 @@ namespace VfxEditor.FileManager {
                 return true;
             }
             return false;
+        }
+
+        // Document is being moved somewhere else
+        public void MoveDocumentOut( D document ) {
+            DraggingItem = null;
+            DocumentWindow.Reset();
+
+            Documents.Remove( document );
+            if( Documents.Count == 0 ) AddDocument(); // There needs to be at least 1 document
+            if( document == ActiveDocument ) ActiveDocument = Documents[0];
+        }
+
+        public void MoveDocumentIn( D document ) {
+            Documents.Add( document );
+            ActiveDocument = document;
         }
 
         public IEnumerable<IFileDocument> GetDocuments() => Documents;

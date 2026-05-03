@@ -19,20 +19,29 @@ namespace VfxEditor.FileManager {
         public FileManagerGroup( string title, string formatName, string extension, string workspaceKey, string workspacePath ) :
             base( title, formatName, extension, workspaceKey, workspacePath ) {
 
-            AddManager();
-            LastFocusedManager = Managers[0];
+            LastFocusedManager = AddManager();
         }
 
         protected abstract M GetNewManager();
 
-        public void AddManager() {
-            Managers.Add( GetNewManager() );
+        public M AddManager() {
+            var newManager = GetNewManager();
+            Managers.Add( newManager );
+            return newManager;
         }
 
         public override void NewWindow() {
-            var newManager = GetNewManager();
-            Managers.Add( newManager );
-            newManager.Show();
+            AddManager().Show();
+        }
+
+        public override void ToNewWindow( FileManagerBase currentManager, IFileDocument document ) {
+            if( ( currentManager is M m ) && ( document is D d ) ) {
+                m.MoveDocumentOut( d );
+                var newManager = AddManager();
+                newManager.Show();
+                newManager.RemoveDocument( newManager.Documents[0] ); // remove the default
+                newManager.MoveDocumentIn( d );
+            }
         }
 
         public override void OnClose( FileManagerBase manager ) {

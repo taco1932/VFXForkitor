@@ -99,11 +99,17 @@ namespace VfxEditor.FileManager {
                     if( !open && Documents.Count > 1 ) ImGui.OpenPopup( "DeletePopup" );
 
                     if( ImGui.IsItemClicked( ImGuiMouseButton.Left ) && open ) SelectDocument( document );
-                    if( ImGui.IsItemClicked( ImGuiMouseButton.Right ) ) ImGui.OpenPopup( "RenamePopup" );
+                    if( ImGui.IsItemClicked( ImGuiMouseButton.Right ) ) ImGui.OpenPopup( "ContextPopup" );
 
                     using var itemSpacing = ImRaii.PushStyle( ImGuiStyleVar.ItemSpacing, new Vector2( 8, 4 ) );
-                    using( var popup = ImRaii.Popup( "RenamePopup" ) ) {
-                        if( popup ) document.DrawRename();
+                    using( var popup = ImRaii.Popup( "ContextPopup" ) ) {
+                        if( popup ) {
+                            if( ImGui.Selectable( "New Window" ) ) {
+                                Group.ToNewWindow( this, document );
+                                break;
+                            }
+                            document.DrawRename();
+                        }
                     }
                     using( var popup = ImRaii.Popup( "DeletePopup" ) ) {
                         if( popup ) {

@@ -56,8 +56,10 @@ namespace VfxEditor {
 
             if( ImGui.BeginMenu( "File" ) ) {
                 if( ImGui.MenuItem( "New Window" ) ) group.NewWindow();
-                if( ImGui.MenuItem( "New Workspace" ) ) NewWorkspace();
-                if( ImGui.MenuItem( "Open Workspace" ) ) OpenWorkspace( true );
+
+                ImGui.Separator();
+                if( ImGui.MenuItem( "New" ) ) NewWorkspace();
+                if( ImGui.MenuItem( "Open" ) ) OpenWorkspace( true );
                 if( ImGui.BeginMenu( "Open Recent" ) ) {
                     foreach( var (recent, idx) in Configuration.RecentWorkspaces.WithIndex() ) {
                         if( ImGui.MenuItem( $"{recent.Item1}##{idx}" ) ) {

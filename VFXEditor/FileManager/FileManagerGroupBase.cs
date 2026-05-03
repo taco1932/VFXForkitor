@@ -1,4 +1,5 @@
 using Dalamud.Interface.Windowing;
+using VfxEditor.FileManager.Interfaces;
 
 namespace VfxEditor.FileManager {
     public abstract class FileManagerGroupBase {
@@ -34,5 +35,7 @@ namespace VfxEditor.FileManager {
         public abstract void OnClose( FileManagerBase manager );
 
         public abstract void NewWindow();
+
+        public abstract void ToNewWindow( FileManagerBase currentManager, IFileDocument document );
     }
 }
