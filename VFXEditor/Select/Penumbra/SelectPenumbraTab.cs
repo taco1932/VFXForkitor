@@ -27,7 +27,6 @@ namespace VfxEditor.Select.Penumbra {
 
         // $"{group} {option}" -> (gamePath, localPath)
         public override void LoadSelection( SelectPenumbraTabItem item, out PenumbraMod loaded ) {
-            loaded = new();
             PenumbraUtils.LoadFromName( item.Name, Dialog.Extensions, out loaded );
         }
 

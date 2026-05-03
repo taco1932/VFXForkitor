@@ -12,7 +12,7 @@ namespace VfxEditor.Ui.Import {
     public class PenumbraImportDialog : DalamudWindow {
         protected readonly List<string> AllowedTypes = ["avfx", "atex", "tmb", "pap", "scd", "uld", "sklb", "skp", "phyb", "eid", "atch", "kdb", "pbd", "mdl", "mtrl", "shpk", "shcd"];
 
-        protected readonly List<PenumbraImportItem> Items = new();
+        protected readonly List<PenumbraImportItem> Items = [];
 
         protected readonly string Name;
 
@@ -38,7 +38,7 @@ namespace VfxEditor.Ui.Import {
         }
 
         public override void DrawBody() {
-            Load(); // mods can change externally
+            LoadData(); // mods can change externally
             if( Items.Count == 0 ) return;
 
             using var _ = ImRaii.PushId( WindowName );
@@ -89,14 +89,14 @@ namespace VfxEditor.Ui.Import {
 
         private void DrawButtonsDesc() {
             ImGui.Separator();
-            var text = Reset ? "Import Modpack into Workspace" : "Append Modpack to Workspace";
+            var text = Reset ? "Import into Workspace" : "Append to Workspace";
             if( ImGui.Button( text ) ) {
                 OnImport();
             }
         }
 
         private void DrawExtensionButtons() {
-            if( ImGui.Button( "Select All Extensions" ) ) {
+            if( ImGui.Button( "Select All" ) ) {
                 ExtensionSelectAll();
             }
             ImGui.SameLine();
@@ -159,7 +159,7 @@ namespace VfxEditor.Ui.Import {
         }
 
         private void DrawModBtn() {
-            if( ImGui.Button( "Select All Options" ) ) {
+            if( ImGui.Button( "Select All" ) ) {
                 OptionsSelectAll();
             }
             ImGui.SameLine();
@@ -180,8 +180,7 @@ namespace VfxEditor.Ui.Import {
         }
 
         private void DrawModOptions() {
-            var idx = 0;
-            foreach( var option in LoadedPenumbraMod.SourceFiles ) {
+            foreach( var (option, idx) in LoadedPenumbraMod.SourceFiles.WithIndex() ) {
                 var optionName = option.Key;
                 var selected = SelectedModOptions[optionName];
                 if( ImGui.Checkbox( "##SelectedOption" + idx, ref selected ) ) {
@@ -192,11 +191,10 @@ namespace VfxEditor.Ui.Import {
                     if( selected ) DrawModPaths( option.Value );
                     else DrawModPathsDisabled( option.Value );
                 }
-                idx++;
             }
         }
 
-        private void DrawModPaths( List<string> option ) {
+        private static void DrawModPaths( List<string> option ) {
             foreach( var path in option ) {
                 var split = path.Split( '|' );
                 var gamePath = split[0];
@@ -210,7 +208,7 @@ namespace VfxEditor.Ui.Import {
             }
         }
 
-        private void DrawModPathsDisabled( List<string> option ) {
+        private static void DrawModPathsDisabled( List<string> option ) {
             foreach( var path in option ) {
                 var split = path.Split( '|' );
                 var gamePath = split[0];
@@ -234,14 +232,12 @@ namespace VfxEditor.Ui.Import {
 
             ImGui.TableSetupColumn( "##Column1", ImGuiTableColumnFlags.WidthStretch );
 
-            var idx = 0;
-            foreach( var item in Items ) {
+            foreach( var (item, idx) in Items.WithIndex() ) {
                 if( !( string.IsNullOrEmpty( SearchInput ) ||
                     item.Name.Contains( SearchInput, System.StringComparison.CurrentCultureIgnoreCase )
                 ) ) continue;
                 ImGui.TableNextRow();
                 DrawRow( item, idx );
-                idx++;
             }
         }
 
@@ -251,10 +247,10 @@ namespace VfxEditor.Ui.Import {
             ImGui.TableNextColumn();
             if( ImGui.Selectable( item.Name, SelectedPenumbraMod?.Name == item.Name, ImGuiSelectableFlags.SpanAllColumns ) ) {
                 SelectedPenumbraMod = item;
-                OnRefresh();
+                RefreshLoadedMod();
             }
 
-            if( PostRow( item, idx ) ) return true;
+            if( PostRow() ) return true;
             return false;
         }
 
@@ -262,14 +258,14 @@ namespace VfxEditor.Ui.Import {
             foreach( var type in SelectedTypes ) {
                 SelectedTypes[type.Key] = true;
             }
-            OnRefresh();
+            RefreshLoadedMod();
         }
 
         private void ExtensionSelectNone() {
             foreach( var type in SelectedTypes ) {
                 SelectedTypes[type.Key] = false;
             }
-            OnRefresh();
+            RefreshLoadedMod();
         }
 
         private List<string> GetSelectedTypes() {
@@ -279,10 +275,6 @@ namespace VfxEditor.Ui.Import {
             }
 
             return typesList;
-        }
-
-        private void Load() {
-            LoadData();
         }
 
         private void LoadData() {
@@ -305,10 +297,6 @@ namespace VfxEditor.Ui.Import {
             Hide();
         }
 
-        private void OnRefresh() {
-            RefreshLoadedMod();
-        }
-
         private void OptionsReset() {
             SelectedModOptions = [];
             foreach( var source in LoadedPenumbraMod.SourceFiles ) {
@@ -328,7 +316,7 @@ namespace VfxEditor.Ui.Import {
             }
         }
 
-        private bool PostRow( PenumbraImportItem item, int idx ) {
+        private bool PostRow() {
             if( ImGui.IsMouseDoubleClicked( ImGuiMouseButton.Left ) && ImGui.IsItemHovered() ) {
                 OnImport();
                 return true;
@@ -364,7 +352,7 @@ namespace VfxEditor.Ui.Import {
 
         private void ToggleType( string key ) {
             SelectedTypes[key] = !SelectedTypes[key];
-            OnRefresh();
+            RefreshLoadedMod();
         }
 
         public class PenumbraImportResult {

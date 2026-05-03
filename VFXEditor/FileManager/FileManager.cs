@@ -73,7 +73,7 @@ namespace VfxEditor.FileManager {
 
         public void MoveDocumentAfter( D document, D targetDocument ) {
             if( !Documents.Contains( targetDocument ) ) return;
-            if( Documents.Contains( document ) ) Documents.Remove( document );
+            Documents.Remove( document );
             Documents.Insert( Documents.IndexOf( targetDocument ), document );
         }
 
