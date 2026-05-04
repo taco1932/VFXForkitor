@@ -8,6 +8,9 @@ namespace VfxEditor.Ui {
         private readonly bool IsMainWindow;
         private bool ExpandNextFrame = false;
 
+        public bool Focused => IsOpen && LastFocused;
+        private bool LastFocused = false;
+
         private Vector2? LastPosition;
         private Vector2? LastSize;
 
@@ -31,6 +34,7 @@ namespace VfxEditor.Ui {
         public override void Draw() {
             Plugin.CheckClearKeyState();
 
+            LastFocused = ImGui.IsWindowFocused();
             LastPosition = ImGui.GetWindowPos();
             LastSize = ImGui.GetWindowSize();
 
@@ -40,6 +44,8 @@ namespace VfxEditor.Ui {
         public abstract void DrawBody();
 
         public override void PreDraw() {
+            LastFocused = false;
+
             if( ExpandNextFrame ) {
                 ImGui.SetNextWindowCollapsed( false );
                 ExpandNextFrame = false;
