@@ -81,7 +81,7 @@ namespace VfxEditor.Formats.AtchFormat {
             { "fdr", "Consumable" }, //food and drink, but also includes sundering sword
             { "fha", "Gig (FSH)" },
             { "fl2", "Flute (Performance)" },
-            // { "flc", "" }, //1956
+            { "flc", "Falcon" }, //1956, occult falcon
             { "flt", "Flute (BRD Combat)" },
             { "frg", "Frog Summon (NIN)" },
             { "fry", "Knife (LTW) / Fry Pan (CUL)" },
@@ -100,8 +100,8 @@ namespace VfxEditor.Formats.AtchFormat {
             { "gsl", "Wrench" },
             { "gsr", "Opera Glasses" }, //also 1909, no model
             { "gun", "Gun" },
-            // { "hab", "" }, //1973
-            // { "hbg", "" }, //9209
+            { "hab", "Hardboiled Motorycle" }, //1973
+            { "hbg", "Hardboiled Gun" }, //9209
             // { "hel", "" },
             { "hmm", "Hammer (BSM/ARM)" },
             { "hrp", "Harp (BRD)" },
