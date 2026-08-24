@@ -8,13 +8,13 @@ namespace VfxEditor.TmbFormat.Entries {
     [Flags]
     public enum AnimationFlags {
         Time_Control_Enabled = 0x01,
-        Unknown_2 = 0x02,
-        Unknown_3 = 0x04,
-        Unknown_4 = 0x08,
-        Unknown_5 = 0x10,
-        Unknown_6 = 0x20,
-        Unknown_7 = 0x40,
-        Unknown_8 = 0x80
+        Unknown_Flag_2 = 0x02,
+        Unknown_Flag_3 = 0x04,
+        Unknown_Flag_4 = 0x08,
+        Unknown_Flag_5 = 0x10,
+        Unknown_Flag_6 = 0x20,
+        Unknown_Flag_7 = 0x40,
+        Unknown_Flag_8 = 0x80
     }
 
     public class C010 : TmbEntry {
@@ -28,7 +28,10 @@ namespace VfxEditor.TmbFormat.Entries {
 
         private readonly ParsedInt Duration = new( "Duration", value: 50 );
         private readonly ParsedInt Unk1 = new( "Unknown 1" );
-        private readonly ParsedFlag<AnimationFlags> Flags = new( "Flags" );
+        private readonly ParsedFlag<AnimationFlags> Flags = new( "Flags", size: 1 );
+        private readonly ParsedByte Unk3 = new ( "Unknown 3" ); //1-6
+        private readonly ParsedByte Unk4 = new ( "Unknown 4" ); //0
+        private readonly ParsedByte Unk5 = new ( "Unknown 5" ); //8
         private readonly ParsedFloat AnimationStart = new( "Animation Start Frame" );
         private readonly ParsedFloat AnimationEnd = new( "Animation End Frame" );
         private readonly TmbOffsetString Path = new( "Path" );
@@ -42,6 +45,9 @@ namespace VfxEditor.TmbFormat.Entries {
             Duration,
             Unk1,
             Flags,
+            Unk3,
+            Unk4,
+            Unk5,
             AnimationStart,
             AnimationEnd,
             Path,
@@ -62,6 +68,9 @@ namespace VfxEditor.TmbFormat.Entries {
             Unk1.Draw();
             Path.Draw();
             Unk2.Draw();
+            Unk3.Draw();
+            Unk4.Draw();
+            Unk5.Draw();
         }
     }
 }
