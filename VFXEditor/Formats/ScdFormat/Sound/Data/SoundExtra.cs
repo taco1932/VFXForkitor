@@ -8,7 +8,7 @@ namespace VfxEditor.ScdFormat.Sound.Data {
     public enum SoundExtraUnk2 {
         Unknown_01 = 0x01,
         DualSense_1 = 0x02,
-        Is_Controller_Only = 0x04,
+        Controller_Sound_Only = 0x04,
         DualSense_2 = 0x08,
         Unknown_05 = 0x10,
         Use_Low_Pass_Filter = 0x20,
