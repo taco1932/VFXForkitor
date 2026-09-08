@@ -3,6 +3,12 @@ using VfxEditor.Parsing;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
+    public enum TerrainShape {
+        Cone = 0,
+        Sphere,
+        Unknown_1,
+        Unknown_2
+    }
     public class C075 : TmbEntry {
         public const string MAGIC = "C075";
         public const string DISPLAY_NAME = "Terrain VFX";
@@ -14,7 +20,7 @@ namespace VfxEditor.TmbFormat.Entries {
 
         private readonly ParsedBool Enabled = new( "Enabled" );
         private readonly ParsedInt Unk1 = new( "Unknown 1" );
-        private readonly ParsedInt Shape = new( "Shape" );
+        private readonly ParsedEnum<TerrainShape> Shape = new( "Shape" );
         private readonly TmbOffsetFloat3 Scale = new( "Scale", defaultValue: new( 1 ) );
         private readonly TmbOffsetAngle3 Rotation = new( "Rotation" );
         private readonly TmbOffsetFloat3 Position = new( "Position" );

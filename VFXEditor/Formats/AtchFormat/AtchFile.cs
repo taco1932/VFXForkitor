@@ -156,7 +156,7 @@ namespace VfxEditor.Formats.AtchFormat {
             { "swd", "Sword (GLD/PLD)" },
             { "sxs", "Greatsword (FFXVI)" },
             { "sxw", "Phoenix Wings (FFXVI)" },
-            { "syl", "Reference Book (Emote)" }, //and 1976, no model
+            { "syl", "Horn (BST) / Reference Book (Emote)" },
             { "syr", "Shovel / Scythe" },
             { "syu", "Shuriken (NIN)" },
             { "syw", "Job Summons (Dawntrail)" },

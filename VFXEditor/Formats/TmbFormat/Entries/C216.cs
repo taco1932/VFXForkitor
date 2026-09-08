@@ -1,8 +1,13 @@
 using System.Collections.Generic;
 using VfxEditor.Parsing;
+using VfxEditor.Parsing.Sheets;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
+    public enum SubtitleType {
+        BattleTalk_Window = 0,
+        Bordered_Plaintext = 1,
+    }
     public class C216 : TmbEntry {
         public const string MAGIC = "C216";
         public const string DISPLAY_NAME = "Subtitles";
@@ -14,9 +19,9 @@ namespace VfxEditor.TmbFormat.Entries {
 
         public readonly ParsedBool Enabled = new( "Enabled" );
         public readonly ParsedInt Unknown2 = new( "Unknown 2" );
-        public readonly ParsedInt SubtitleType = new( "Subtitle Type" );
-        public readonly ParsedInt TextId = new( "Text Id" );
-        public readonly ParsedInt SpeakerId = new( "Speaker Id" );
+        public readonly ParsedEnum<SubtitleType> Type = new( "Subtitle Type" );
+        public readonly ParsedSubtitle TextId = new( "Text" );
+        public readonly ParsedNpcName SpeakerId = new( "Speaker" );
         public readonly ParsedFloat Duration = new( "Duration" );
         public readonly ParsedInt Unknown7 = new( "Unknown 7" );
         public readonly ParsedInt Unknown8 = new( "Unknown 8" );
@@ -29,7 +34,7 @@ namespace VfxEditor.TmbFormat.Entries {
         protected override List<ParsedBase> GetParsed() => [
             Enabled,
             Unknown2,
-            SubtitleType,
+            Type,
             TextId,
             SpeakerId,
             Duration,

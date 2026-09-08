@@ -10,10 +10,7 @@ namespace VfxEditor.TmbFormat.Entries {
         Use_Bind_Position = 0x02,
         Unknown_1 = 0x04,
         Unknown_2 = 0x08,
-        Unknown_3 = 0x10,
-        Unknown_4 = 0x20,
-        Unknown_5 = 0x40,
-        Unknown_6 = 0x80,
+        //x04-x80 are entirely unused, but keeping up to x08 in case
     }
 
     public class C053 : TmbEntry {
