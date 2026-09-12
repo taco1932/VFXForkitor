@@ -1,18 +1,10 @@
 using System.Collections.Generic;
 using Dalamud.Interface.Utility.Raii;
 using VfxEditor.Parsing;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
-    public enum C043Type {
-        Invalid = 0x00,
-        Remove_Attribute = 0x01,
-        Apply_Attribute = 0x02,
-        Use_Internal_Id = 0x03,
-        Dead_Pose_Unknown = 0x05,
-        Use_Weapon_Id = 0x08
-    }
-
     public class C043 : TmbEntry {
         public const string MAGIC = "C043";
         public const string DISPLAY_NAME = "Summon Weapon";

@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using VfxEditor.Parsing;
 using VfxEditor.Parsing.Sheets;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
-    public enum SubtitleType {
-        BattleTalk_Window = 0,
-        Bordered_Plaintext = 1,
-    }
     public class C216 : TmbEntry {
         public const string MAGIC = "C216";
         public const string DISPLAY_NAME = "Subtitles";

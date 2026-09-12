@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VfxEditor.Parsing;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
@@ -16,7 +17,7 @@ namespace VfxEditor.TmbFormat.Entries {
         private readonly ParsedInt Duration = new( "Duration" );
         private readonly ParsedInt Unk2 = new( "Unknown 2" );
         private readonly ParsedInt BindPointId = new( "Bind Point Id" );
-        private readonly ParsedInt Rotation = new( "Rotation" );
+        private readonly ParsedEnum<ObjectRotation> Rotation = new( "Rotation" );
         private readonly ParsedEnum<ObjectControl> ObjectControl = new( "Object Control" );
         private readonly ParsedBool NoFollow = new( "Disable Follow" );
         private readonly ParsedBool ScaleEnabled = new( "Scale Enabled", size: 2 );

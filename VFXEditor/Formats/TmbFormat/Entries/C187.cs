@@ -1,13 +1,9 @@
 using System.Collections.Generic;
 using VfxEditor.Parsing;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
-    public enum C187ObjectControl {
-        Summon_or_Lemure_0,
-        Weapon,
-        Offhand
-    }
     public class C187 : TmbEntry {
         public const string MAGIC = "C187";
         public const string DISPLAY_NAME = "Remove Part";

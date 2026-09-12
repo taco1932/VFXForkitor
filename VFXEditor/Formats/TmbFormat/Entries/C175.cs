@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VfxEditor.Parsing;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
@@ -14,7 +15,7 @@ namespace VfxEditor.TmbFormat.Entries {
 
         private readonly ParsedInt Duration = new( "Duration" );
         private readonly ParsedInt Unk2 = new( "Unknown 2" );
-        private readonly ParsedEnum<ObjectControlPosition> InitialScale = new( "Initial Scale" );
+        private readonly ParsedEnum<AtchState> InitialScale = new( "Initial Scale" );
         private readonly ParsedEnum<ObjectControl> ObjectControl = new( "Object Control" );
         private readonly ParsedEnum<ObjectControlFinal> FinalScale = new( "Final Scale" );
         private readonly ParsedBool ScaleDelay = new( "Scale Delay" );

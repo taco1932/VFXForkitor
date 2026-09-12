@@ -1,32 +1,11 @@
-using System;
 using Dalamud.Interface;
 using System.Collections.Generic;
 using VfxEditor.Parsing;
 using VfxEditor.Spawn;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
-    public enum BindUser {
-        Disabled = -1,
-        Default = 0,
-        Caster = 1,
-        Target = 2,
-    }
-    public enum BindType {
-        Disabled = -1,
-        Character = 0,
-        Weapon = 1,
-        Offhand = 2,
-        Summon_or_Lemure = 3,
-        //Summon_or_Lemure_1 = 4,
-    }
-    [Flags]
-    public enum VfxVisibility {
-        Use_Triggers = 0x01,
-        Override_Battle_FX_Setting = 0x02,
-        Unknown = 0x04,
-    }
-
     public class C012 : TmbEntry {
         public const string MAGIC = "C012";
         public const string DISPLAY_NAME = "VFX";
@@ -58,7 +37,7 @@ namespace VfxEditor.TmbFormat.Entries {
         private readonly TmbOffsetAngle3 Rotation = new( "Rotation" );
         private readonly TmbOffsetFloat3 Position = new( "Position" );
         private readonly TmbOffsetFloat4 RGBA = new( "RGBA", defaultValue: new( 1 ) );
-        private readonly ParsedEnum<VfxVisibility> Visibility = new( "Visibility" );
+        private readonly ParsedEnum<VfxC012Visibility> Visibility = new( "Visibility" );
         private readonly ParsedInt Unk3 = new( "Unknown 3" );
 
         public C012( TmbFile file ) : base( file ) { }

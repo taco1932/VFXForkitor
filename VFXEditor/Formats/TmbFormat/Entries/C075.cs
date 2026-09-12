@@ -1,14 +1,9 @@
 using System.Collections.Generic;
 using VfxEditor.Parsing;
+using VfxEditor.TmbFormat.Base;
 using VfxEditor.TmbFormat.Utils;
 
 namespace VfxEditor.TmbFormat.Entries {
-    public enum TerrainShape {
-        Cone = 0,
-        Sphere,
-        Unknown_1,
-        Unknown_2
-    }
     public class C075 : TmbEntry {
         public const string MAGIC = "C075";
         public const string DISPLAY_NAME = "Terrain VFX";
