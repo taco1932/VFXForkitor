@@ -105,11 +105,6 @@ namespace VfxEditor.TmbFormat.Base {
         Return
     }
 
-    public enum VfxC173Visibility {
-        Default_with_Triggers,
-        Always_with_Triggers
-    }
-
     public enum AtchState {
         Stowed_State1,
         Drawn_State0,
@@ -161,7 +156,8 @@ namespace VfxEditor.TmbFormat.Base {
         Normal,
         Whisper,
         Shout,
-        Disabled,
+        Unknown_1,
+        Unknown_2
     }
 
     public enum ObjectRotation {

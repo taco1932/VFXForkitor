@@ -15,7 +15,7 @@ namespace VfxEditor.TmbFormat.Entries {
 
         private readonly ParsedBool Enabled = new( "Enabled" );
         private readonly ParsedInt Unk1 = new( "Unknown 1" );
-        private readonly ParsedInt BindPointID = new( "Bind Point ID" );
+        private readonly ParsedInt BindId = new( "Bind Point Id" );
         private readonly ParsedInt Unk2 = new( "Unknown 2" );
         private readonly ParsedEnum<ObjectControl> ObjectControl = new( "Object Control" );
 
@@ -26,7 +26,7 @@ namespace VfxEditor.TmbFormat.Entries {
         protected override List<ParsedBase> GetParsed() => [
             Enabled,
             Unk1,
-            BindPointID,
+            BindId,
             Unk2,
             ObjectControl
         ];
