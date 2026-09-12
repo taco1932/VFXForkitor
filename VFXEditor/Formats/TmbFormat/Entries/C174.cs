@@ -40,10 +40,10 @@ namespace VfxEditor.TmbFormat.Entries {
 
         private readonly ParsedInt Duration = new( "Duration" );
         private readonly ParsedInt Unk2 = new( "Unknown 2" );
-        private readonly ParsedEnum<ObjectControlPosition> ObjectPosition = new( "Object Position" );
+        private readonly ParsedEnum<ObjectControlPosition> InitialPosition = new( "Initial Position" );
         private readonly ParsedEnum<ObjectControl> ObjectControl = new( "Object Control" );
         private readonly ParsedEnum<ObjectControlFinal> FinalPosition = new( "Final Position" );
-        private readonly ParsedInt PositionDelay = new( "Position Delay" );
+        private readonly ParsedBool PositionDelay = new( "Position Delay" );
         private readonly ParsedInt Unk6 = new( "Unknown 6" );
 
         public C174( TmbFile file ) : base( file ) { }
@@ -53,7 +53,7 @@ namespace VfxEditor.TmbFormat.Entries {
         protected override List<ParsedBase> GetParsed() => [
             Duration,
             Unk2,
-            ObjectPosition,
+            InitialPosition,
             ObjectControl,
             FinalPosition,
             PositionDelay,

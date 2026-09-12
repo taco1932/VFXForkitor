@@ -1,3 +1,4 @@
+using System;
 using Dalamud.Interface;
 using System.Collections.Generic;
 using VfxEditor.Parsing;
@@ -19,11 +20,11 @@ namespace VfxEditor.TmbFormat.Entries {
         Summon_or_Lemure = 3,
         //Summon_or_Lemure_1 = 4,
     }
+    [Flags]
     public enum VfxVisibility {
-        Default_no_Triggers = 0,
-        Default_with_Triggers = 1,
-        Always_no_Triggers = 2,
-        Always_with_Triggers = 3,
+        Use_Triggers = 0x01,
+        Override_Battle_FX_Setting = 0x02,
+        Unknown = 0x04,
     }
 
     public class C012 : TmbEntry {

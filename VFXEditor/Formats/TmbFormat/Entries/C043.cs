@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Dalamud.Interface.Utility.Raii;
 using VfxEditor.Parsing;
 using VfxEditor.TmbFormat.Utils;
 
@@ -40,5 +41,17 @@ namespace VfxEditor.TmbFormat.Entries {
             BodyId,
             VariantId
         ];
+
+        public override void DrawBody() {
+            DrawHeader();
+            Unk1.Draw();
+            Type.Draw();
+
+            using( var disabled = ImRaii.Disabled( Type.Value != C043Type.Use_Weapon_Id ) ) {
+                WeaponId.Draw();
+                BodyId.Draw();
+                VariantId.Draw();
+            }
+        }
     }
 }
